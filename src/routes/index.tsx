@@ -1,4 +1,3 @@
-import React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import {
     Box,
@@ -11,13 +10,12 @@ import {
     Text,
     Icon,
     useColorModeValue,
-    createIcon,
     IconProps,
     SimpleGrid,
-    Avatar,
-    VStack,
-  } from '@chakra-ui/react';
-  import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard, FaQuoteLeft } from 'react-icons/fa';
+  Avatar,
+  VStack,
+} from '@chakra-ui/react';
+import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard, FaQuoteLeft } from 'react-icons/fa';
 function LandingPage() {
   return (
     <Box>
@@ -29,7 +27,9 @@ function LandingPage() {
               zFLYN
             </Heading>
             <Stack direction="row" spacing={4}>
-              <Button variant="outline" colorScheme="blue">Login</Button>
+              <Button variant="outline" colorScheme="blue" onClick={() => {
+                console.log('Button clicked!');
+              }}>Login</Button>
               <Button colorScheme="blue">Sign Up</Button>
             </Stack>
           </Flex>
