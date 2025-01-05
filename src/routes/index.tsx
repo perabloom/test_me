@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import {
     Box,
     Button,
@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard, FaQuoteLeft } from 'react-icons/fa';
 function LandingPage() {
+  const navigate = useNavigate()
   return (
     <Box>
       {/* Navigation Bar */}
@@ -28,9 +29,11 @@ function LandingPage() {
             </Heading>
             <Stack direction="row" spacing={4}>
               <Button variant="outline" colorScheme="blue" onClick={() => {
-                console.log('Button clicked!');
+                navigate({ to: "/login" })
               }}>Login</Button>
-              <Button colorScheme="blue">Sign Up</Button>
+              <Button colorScheme="blue" onClick={() => {
+                navigate({ to: "/signup" })
+              }}>Sign Up</Button>
             </Stack>
           </Flex>
         </Container>
