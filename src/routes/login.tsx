@@ -12,6 +12,7 @@ import {
   Link,
   Text,
   useBoolean,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import {
   Link as RouterLink,
@@ -20,7 +21,7 @@ import {
 } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
-import Logo from "/assets/images/fastapi-logo.svg"
+import Logo from "/assets/images/zflyn.png"
 import type { Body_login_login_access_token as AccessToken } from "../client"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { emailPattern } from "../utils"
@@ -75,6 +76,7 @@ function Login() {
         justifyContent="center"
         gap={4}
         centerContent
+        bg={useColorModeValue('white', 'gray.800')}
       >
         <Image
           src={Logo}
@@ -94,6 +96,8 @@ function Login() {
             placeholder="Email"
             type="email"
             required
+            bg={useColorModeValue('gray.100', 'gray.700')}
+            _placeholder={{ color: 'gray.500' }}
           />
           {errors.username && (
             <FormErrorMessage>{errors.username.message}</FormErrorMessage>
@@ -108,6 +112,8 @@ function Login() {
               type={show ? "text" : "password"}
               placeholder="Password"
               required
+              bg={useColorModeValue('gray.100', 'gray.700')}
+              _placeholder={{ color: 'gray.500' }}
             />
             <InputRightElement
               color="ui.dim"
@@ -129,7 +135,11 @@ function Login() {
         <Link as={RouterLink} to="/recover-password" color="blue.500">
           Forgot password?
         </Link>
-        <Button variant="primary" type="submit" isLoading={isSubmitting}>
+        <Button
+          colorScheme="blue"
+          type="submit"
+          isLoading={isSubmitting}
+        >
           Log In
         </Button>
         <Text>

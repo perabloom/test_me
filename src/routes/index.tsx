@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useState } from 'react';
 import {
     Box,
     Button,
@@ -14,18 +15,37 @@ import {
     SimpleGrid,
   Avatar,
   VStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Input,
 } from '@chakra-ui/react';
 import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard, FaQuoteLeft } from 'react-icons/fa';
+import Logo from "/assets/images/zflyn.png"
+
 function LandingPage() {
   const navigate = useNavigate()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
   return (
     <Box>
       {/* Navigation Bar */}
       <Box bg={useColorModeValue('white', 'gray.800')} boxShadow="md" position="fixed" width="100%" zIndex={10}>
         <Container maxW="7xl" py={4}>
           <Flex justify="space-between" align="center">
-            <Heading size="lg" color={useColorModeValue('blue.500', 'white')}>
-              zFLYN
+            <Heading size="sm" color={useColorModeValue('blue.500', 'white')}>
+              ZFLYN
             </Heading>
             <Stack direction="row" spacing={4}>
               <Button variant="outline" colorScheme="blue" onClick={() => {
@@ -89,6 +109,7 @@ function LandingPage() {
                 colorScheme={'blue'}
                 bg={'blue.400'}
                 _hover={{ bg: 'blue.500' }}
+                onClick={handleModalOpen}
               >
                 Start Free Trial
               </Button>
@@ -140,6 +161,30 @@ function LandingPage() {
           </Flex>
         </Stack>
       </Container>
+
+      {/* Modal */}
+      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Start Your Free Trial</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>Thank you for your interest in our platform!</Text>
+            <Text>
+              Please enter your email address to start your free trial.
+            </Text>
+            <Input type="email" placeholder="Email address" />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              Start Free Trial
+            </Button>
+            <Button variant="outline" colorScheme="blue" onClick={handleModalClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Feature Section */}
       <Box bg={useColorModeValue('gray.100', 'gray.700')}>

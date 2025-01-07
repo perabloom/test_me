@@ -9,6 +9,7 @@ import {
   Input,
   Link,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react"
 import {
   Link as RouterLink,
@@ -17,7 +18,7 @@ import {
 } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
 
-import Logo from "/assets/images/fastapi-logo.svg"
+import Logo from "/assets/images/zflyn.png"
 import type { UserRegister } from "../client"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { confirmPasswordRules, emailPattern, passwordRules } from "../utils"
@@ -61,7 +62,12 @@ function SignUp() {
 
   return (
     <>
-      <Flex flexDir={{ base: "column", md: "row" }} justify="center" h="100vh">
+      <Flex
+        flexDir={{ base: "column", md: "row" }}
+        justify="center"
+        h="100vh"
+        bg={useColorModeValue('white', 'gray.800')}
+      >
         <Container
           as="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -90,6 +96,8 @@ function SignUp() {
               {...register("full_name", { required: "Full Name is required" })}
               placeholder="Full Name"
               type="text"
+              bg={useColorModeValue('gray.100', 'gray.700')}
+              _placeholder={{ color: 'gray.500' }}
             />
             {errors.full_name && (
               <FormErrorMessage>{errors.full_name.message}</FormErrorMessage>
@@ -107,6 +115,8 @@ function SignUp() {
               })}
               placeholder="Email"
               type="email"
+              bg={useColorModeValue('gray.100', 'gray.700')}
+              _placeholder={{ color: 'gray.500' }}
             />
             {errors.email && (
               <FormErrorMessage>{errors.email.message}</FormErrorMessage>
@@ -121,6 +131,8 @@ function SignUp() {
               {...register("password", passwordRules())}
               placeholder="Password"
               type="password"
+              bg={useColorModeValue('gray.100', 'gray.700')}
+              _placeholder={{ color: 'gray.500' }}
             />
             {errors.password && (
               <FormErrorMessage>{errors.password.message}</FormErrorMessage>
@@ -139,6 +151,8 @@ function SignUp() {
               {...register("confirm_password", confirmPasswordRules(getValues))}
               placeholder="Repeat Password"
               type="password"
+              bg={useColorModeValue('gray.100', 'gray.700')}
+              _placeholder={{ color: 'gray.500' }}
             />
             {errors.confirm_password && (
               <FormErrorMessage>
@@ -146,7 +160,11 @@ function SignUp() {
               </FormErrorMessage>
             )}
           </FormControl>
-          <Button variant="primary" type="submit" isLoading={isSubmitting}>
+          <Button
+            colorScheme="blue"
+            type="submit"
+            isLoading={isSubmitting}
+          >
             Sign Up
           </Button>
           <Text>
