@@ -25,7 +25,6 @@ import {
   Input,
 } from '@chakra-ui/react';
 import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard, FaQuoteLeft } from 'react-icons/fa';
-import Logo from "/assets/images/zflyn.png"
 
 function LandingPage() {
   const navigate = useNavigate()
