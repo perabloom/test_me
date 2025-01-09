@@ -17,6 +17,7 @@ import {
   redirect,
 } from "@tanstack/react-router"
 import { type SubmitHandler, useForm } from "react-hook-form"
+import { useNavigate } from "@tanstack/react-router"
 
 import Logo from "/assets/images/zflyn.png"
 import type { UserRegister } from "../client"
@@ -57,7 +58,15 @@ function SignUp() {
   })
 
   const onSubmit: SubmitHandler<UserRegisterForm> = (data) => {
-    signUpMutation.mutate(data)
+    const navigate = useNavigate()
+    try {
+      signUpMutation.mutate(data)
+      navigate({ to: "/dashboard" })
+    } catch (error) {
+      console.error(error)
+      // error is handled by useAuth hook
+    }
+
   }
 
   return (
