@@ -25,6 +25,7 @@ import Logo from "/assets/images/zflyn.png"
 import type { Body_login_login_access_token as AccessToken } from "../client"
 import useAuth, { isLoggedIn } from "../hooks/useAuth"
 import { emailPattern } from "../utils"
+import { useNavigate } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/login")({
   component: Login,
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/login")({
 })
 
 function Login() {
+  const navigate = useNavigate()
   const [show, setShow] = useBoolean()
   const { loginMutation, error, resetError } = useAuth()
   const {
@@ -60,10 +62,7 @@ function Login() {
 
     try {
       await loginMutation.mutateAsync(data)
-      // Redirect to /dashboard after successful login
-      throw redirect({
-        to: "/dashboard",
-      })
+      navigate({ to: "/dashboard" })
     } catch {
       // error is handled by useAuth hook
     }
