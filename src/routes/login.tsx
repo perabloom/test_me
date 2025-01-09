@@ -60,6 +60,10 @@ function Login() {
 
     try {
       await loginMutation.mutateAsync(data)
+      // Redirect to /dashboard after successful login
+      throw redirect({
+        to: "/dashboard",
+      })
     } catch {
       // error is handled by useAuth hook
     }
