@@ -19,6 +19,7 @@ import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
+import { Route as LayoutGoogleBusinessProfileImport } from './routes/_layout/google-business-profile'
 import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 
@@ -63,6 +64,12 @@ const LayoutItemsRoute = LayoutItemsImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
 } as any)
+
+const LayoutGoogleBusinessProfileRoute =
+  LayoutGoogleBusinessProfileImport.update({
+    path: '/google-business-profile',
+    getParentRoute: () => LayoutRoute,
+  } as any)
 
 const LayoutDashboardRoute = LayoutDashboardImport.update({
   path: '/dashboard',
@@ -110,6 +117,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutDashboardImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/google-business-profile': {
+      preLoaderRoute: typeof LayoutGoogleBusinessProfileImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/items': {
       preLoaderRoute: typeof LayoutItemsImport
       parentRoute: typeof LayoutImport
@@ -128,6 +139,7 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAdminRoute,
     LayoutDashboardRoute,
+    LayoutGoogleBusinessProfileRoute,
     LayoutItemsRoute,
     LayoutSettingsRoute,
   ]),
