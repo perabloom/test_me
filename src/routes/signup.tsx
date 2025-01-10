@@ -38,7 +38,7 @@ export const Route = createFileRoute("/signup")({
 interface UserRegisterForm extends UserRegister {
   confirm_password: string
 }
-
+const navigate = useNavigate()
 function SignUp() {
   const { signUpMutation } = useAuth()
   const {
@@ -58,7 +58,6 @@ function SignUp() {
   })
 
   const onSubmit: SubmitHandler<UserRegisterForm> = (data) => {
-    const navigate = useNavigate()
     try {
       signUpMutation.mutate(data)
       navigate({ to: "/dashboard" })
