@@ -38,8 +38,9 @@ export const Route = createFileRoute("/signup")({
 interface UserRegisterForm extends UserRegister {
   confirm_password: string
 }
-const navigate = useNavigate()
+
 function SignUp() {
+  const navigate = useNavigate()
   const { signUpMutation } = useAuth()
   const {
     register,
