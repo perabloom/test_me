@@ -1,3 +1,5 @@
+import React from 'react';
+// sidebar.tsx
 import {
   Box,
   Drawer,
@@ -28,9 +30,14 @@ const Sidebar = () => {
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { logout } = useAuth()
+  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true)
 
   const handleLogout = async () => {
     logout()
+  }
+
+  const toggleSidebar = () => {
+    setIsSidebarExpanded(!isSidebarExpanded)
   }
 
   return (
@@ -91,10 +98,46 @@ const Sidebar = () => {
           bg={secBgColor}
           p={4}
           borderRadius={12}
+          w={isSidebarExpanded ? "250px" : "70px"}
+          transition="width 0.2s ease-in-out"
         >
           <Box>
-            <Image src={Logo} alt="Logo" w="180px" maxW="2xs" p={6} />
-            <SidebarItems />
+            <IconButton
+              aria-label="Toggle Sidebar"
+              icon={<FiMenu />}
+              onClick={toggleSidebar}
+              alignSelf="flex-end"
+              mt={4}
+              transform={isSidebarExpanded ? "rotate(180deg)" : "rotate(0deg)"}
+              transition="transform 0.2s ease-in-out"
+            />
+            <Image
+              src={Logo}
+              alt="Logo"
+              w={isSidebarExpanded ? "180px" : "40px"}
+              maxW="2xs"
+              p={isSidebarExpanded ? 6 : 2}
+            />
+            {isSidebarExpanded ? (
+              <>
+                <SidebarItems />
+                <Flex
+                  as="button"
+                  onClick={handleLogout}
+                  p={2}
+                  color="ui.danger"
+                  fontWeight="bold"
+                  alignItems="center"
+                >
+                  <FiLogOut />
+                  <Text ml={2}>Log out</Text>
+                </Flex>
+              </>
+            ) : (
+              <>
+                <SidebarItems isCollapsed={true} />
+              </>
+            )}
           </Box>
           {currentUser?.email && (
             <Text
@@ -102,7 +145,9 @@ const Sidebar = () => {
               noOfLines={2}
               fontSize="sm"
               p={2}
-              maxW="180px"
+              maxW={isSidebarExpanded ? "180px" : "0px"}
+              overflow="hidden"
+              transition="max-width 0.2s ease-in-out"
             >
               Logged in as: {currentUser.email}
             </Text>

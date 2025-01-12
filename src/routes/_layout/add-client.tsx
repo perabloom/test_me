@@ -56,6 +56,7 @@ import {
     };
 
     return (
+      <>
       <Container maxW="full">
         <Heading size="lg" textAlign={{ base: "center", md: "left" }} pt={12}>
           Add new client
@@ -163,5 +164,6 @@ import {
           Add Client
         </Button>
       </Container>
+      </>
     );
   }

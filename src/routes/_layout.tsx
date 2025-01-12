@@ -8,7 +8,7 @@ import useAuth, { isLoggedIn } from "../hooks/useAuth"
 export const Route = createFileRoute("/_layout")({
   component: Layout,
   beforeLoad: async () => {
-    if (!isLoggedIn()) {
+    if ( process.env.NODE_ENV === "production" && !isLoggedIn()) {
       throw redirect({
         to: "/login",
       })

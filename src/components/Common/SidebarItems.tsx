@@ -1,3 +1,4 @@
+// SidebarItems.tsx
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
@@ -15,9 +16,10 @@ const items = [
 
 interface SidebarItemsProps {
   onClose?: () => void
+  isCollapsed?: boolean
 }
 
-const SidebarItems = ({ onClose }: SidebarItemsProps) => {
+const SidebarItems = ({ onClose, isCollapsed }: SidebarItemsProps) => {
   const queryClient = useQueryClient()
   const textColor = useColorModeValue("ui.main", "ui.light")
   const bgActive = useColorModeValue("#E2E8F0", "#4A5568")
@@ -42,9 +44,10 @@ const SidebarItems = ({ onClose }: SidebarItemsProps) => {
       }}
       color={textColor}
       onClick={onClose}
+      justifyContent={isCollapsed ? "center" : "flex-start"}
     >
       <Icon as={icon} alignSelf="center" />
-      <Text ml={2}>{title}</Text>
+      {!isCollapsed && <Text ml={2}>{title}</Text>}
     </Flex>
   ))
 
