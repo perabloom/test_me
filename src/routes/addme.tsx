@@ -1,5 +1,6 @@
 
 import { createFileRoute } from '@tanstack/react-router';
+import AddClient from "../components/Common/AddClient"
 export const Route = createFileRoute("/addme")({
   component: AddClientx,
 })
@@ -17,6 +18,13 @@ import {
   Button,
   Flex,
   Heading,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { CSVLink } from 'react-csv';
 
@@ -53,6 +61,8 @@ const customers = [
 
 // Define the CRM table component
 function AddClientx () {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const headers = [
     { label: 'ID', key: 'id' },
     { label: 'Name', key: 'name' },
@@ -69,9 +79,22 @@ function AddClientx () {
       <Flex justifyContent="space-between" mb={4}>
         <Heading size="md">Customer List</Heading>
         <Flex>
-          <Button leftIcon={<FiPlus />} colorScheme="blue" mr={2}>
+          <Button leftIcon={<FiPlus />} colorScheme="blue" mr={2} onClick={onOpen}>
             Add Client
           </Button>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent maxW="800px" // Adjust the width
+              maxH="600px" // Adjust the height
+              overflow="scroll" // Add a scrollbar if the content is too large
+            >
+              <ModalHeader>Add Client</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <AddClient onClose={onClose}/>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
           <CSVLink
             data={customers}
             headers={headers}
