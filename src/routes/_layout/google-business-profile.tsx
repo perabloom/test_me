@@ -3,6 +3,9 @@ import { createFileRoute } from "@tanstack/react-router"
 
 import useAuth from "../../hooks/useAuth"
 
+import EstimateGenerator from "../../components/Testing/EstimateGenerator"
+
+
 export const Route = createFileRoute("/_layout/google-business-profile")({
   component: GoogleBusinessProfile,
 })
@@ -18,6 +21,7 @@ function GoogleBusinessProfile() {
             Hi, {currentUser?.full_name || currentUser?.email} 👋🏼
           </Text>
           <Text>Welcome to Google Business Profile!</Text>
+          <EstimateGenerator />
         </Box>
       </Container>
     </>

@@ -9,6 +9,26 @@ export type Body_login_login_access_token = {
   client_secret?: string | null
 }
 
+export type Business = {
+  name: string
+  address: string | null
+  phone_number: string | null
+  id?: string
+  owner_id: string
+}
+
+export type BusinessCreate = {
+  name: string
+  address: string | null
+  phone_number: string | null
+}
+
+export type BusinessUpdate = {
+  name: string
+  address: string | null
+  phone_number: string | null
+}
+
 export type HTTPValidationError = {
   detail?: Array<ValidationError>
 }
@@ -42,6 +62,13 @@ export type Message = {
 export type NewPassword = {
   token: string
   new_password: string
+}
+
+export type PrivateUserCreate = {
+  email: string
+  password: string
+  full_name: string
+  is_verified?: boolean
 }
 
 export type Token = {
@@ -100,6 +127,42 @@ export type ValidationError = {
   type: string
 }
 
+export type BusinessReadBusinessesData = {
+  limit?: number
+  skip?: number
+}
+
+export type BusinessReadBusinessesResponse = Array<Business>
+
+export type BusinessCreateBusinessData = {
+  requestBody: BusinessCreate
+}
+
+export type BusinessCreateBusinessResponse = Business
+
+export type BusinessReadBusinessData = {
+  businessId: string
+}
+
+export type BusinessReadBusinessResponse = Business
+
+export type BusinessUpdateBusinessData = {
+  businessId: string
+  requestBody: BusinessUpdate
+}
+
+export type BusinessUpdateBusinessResponse = Business
+
+export type BusinessDeleteBusinessData = {
+  businessId: string
+}
+
+export type BusinessDeleteBusinessResponse = Message
+
+export type GoogleBusinessAuthorizeGoogleBusinessResponse = unknown
+
+export type GoogleBusinessOauth2CallbackResponse = unknown
+
 export type ItemsReadItemsData = {
   limit?: number
   skip?: number
@@ -157,6 +220,12 @@ export type LoginRecoverPasswordHtmlContentData = {
 }
 
 export type LoginRecoverPasswordHtmlContentResponse = string
+
+export type PrivateCreateUserData = {
+  requestBody: PrivateUserCreate
+}
+
+export type PrivateCreateUserResponse = UserPublic
 
 export type UsersReadUsersData = {
   limit?: number

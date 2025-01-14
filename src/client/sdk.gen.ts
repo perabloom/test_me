@@ -4,6 +4,18 @@ import type { CancelablePromise } from "./core/CancelablePromise"
 import { OpenAPI } from "./core/OpenAPI"
 import { request as __request } from "./core/request"
 import type {
+  BusinessReadBusinessesData,
+  BusinessReadBusinessesResponse,
+  BusinessCreateBusinessData,
+  BusinessCreateBusinessResponse,
+  BusinessReadBusinessData,
+  BusinessReadBusinessResponse,
+  BusinessUpdateBusinessData,
+  BusinessUpdateBusinessResponse,
+  BusinessDeleteBusinessData,
+  BusinessDeleteBusinessResponse,
+  GoogleBusinessAuthorizeGoogleBusinessResponse,
+  GoogleBusinessOauth2CallbackResponse,
   ItemsReadItemsData,
   ItemsReadItemsResponse,
   ItemsCreateItemData,
@@ -23,6 +35,8 @@ import type {
   LoginResetPasswordResponse,
   LoginRecoverPasswordHtmlContentData,
   LoginRecoverPasswordHtmlContentResponse,
+  PrivateCreateUserData,
+  PrivateCreateUserResponse,
   UsersReadUsersData,
   UsersReadUsersResponse,
   UsersCreateUserData,
@@ -45,6 +59,152 @@ import type {
   UtilsTestEmailResponse,
   UtilsHealthCheckResponse,
 } from "./types.gen"
+
+export class BusinessService {
+  /**
+   * Read Businesses
+   * # Query all businesses owned by the current user
+   * statement = select(Business).filter_by(owner_id=current_user.id).offset(skip).limit(limit)
+   * businesses = session.exec(statement)().all()  # Use scalars() to specify the return type
+   * return businesses
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @returns Business Successful Response
+   * @throws ApiError
+   */
+  public static readBusinesses(
+    data: BusinessReadBusinessesData = {},
+  ): CancelablePromise<BusinessReadBusinessesResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/business/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Create Business
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Business Successful Response
+   * @throws ApiError
+   */
+  public static createBusiness(
+    data: BusinessCreateBusinessData,
+  ): CancelablePromise<BusinessCreateBusinessResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/business/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Business
+   * @param data The data for the request.
+   * @param data.businessId
+   * @returns Business Successful Response
+   * @throws ApiError
+   */
+  public static readBusiness(
+    data: BusinessReadBusinessData,
+  ): CancelablePromise<BusinessReadBusinessResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/business/{business_id}",
+      path: {
+        business_id: data.businessId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Business
+   * @param data The data for the request.
+   * @param data.businessId
+   * @param data.requestBody
+   * @returns Business Successful Response
+   * @throws ApiError
+   */
+  public static updateBusiness(
+    data: BusinessUpdateBusinessData,
+  ): CancelablePromise<BusinessUpdateBusinessResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/business/{business_id}",
+      path: {
+        business_id: data.businessId,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Business
+   * @param data The data for the request.
+   * @param data.businessId
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteBusiness(
+    data: BusinessDeleteBusinessData,
+  ): CancelablePromise<BusinessDeleteBusinessResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/business/{business_id}",
+      path: {
+        business_id: data.businessId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+export class GoogleBusinessService {
+  /**
+   * Authorize Google Business
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static authorizeGoogleBusiness(): CancelablePromise<GoogleBusinessAuthorizeGoogleBusinessResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/google_business/authorize-google-business",
+    })
+  }
+
+  /**
+   * Oauth2Callback
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static oauth2Callback(): CancelablePromise<GoogleBusinessOauth2CallbackResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/google_business/oauth2callback",
+    })
+  }
+}
 
 export class ItemsService {
   /**
@@ -265,6 +425,30 @@ export class LoginService {
       path: {
         email: data.email,
       },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+export class PrivateService {
+  /**
+   * Create User
+   * Create a new user.
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns UserPublic Successful Response
+   * @throws ApiError
+   */
+  public static createUser(
+    data: PrivateCreateUserData,
+  ): CancelablePromise<PrivateCreateUserResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/private/users/",
+      body: data.requestBody,
+      mediaType: "application/json",
       errors: {
         422: "Validation Error",
       },
