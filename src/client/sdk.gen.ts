@@ -4,16 +4,36 @@ import type { CancelablePromise } from "./core/CancelablePromise"
 import { OpenAPI } from "./core/OpenAPI"
 import { request as __request } from "./core/request"
 import type {
-  BusinessReadBusinessesData,
-  BusinessReadBusinessesResponse,
-  BusinessCreateBusinessData,
-  BusinessCreateBusinessResponse,
-  BusinessReadBusinessData,
-  BusinessReadBusinessResponse,
-  BusinessUpdateBusinessData,
-  BusinessUpdateBusinessResponse,
-  BusinessDeleteBusinessData,
-  BusinessDeleteBusinessResponse,
+  AppointmentsCreateAppointmentData,
+  AppointmentsCreateAppointmentResponse,
+  AppointmentsReadAppointmentsData,
+  AppointmentsReadAppointmentsResponse,
+  AppointmentsReadAppointmentData,
+  AppointmentsReadAppointmentResponse,
+  AppointmentsUpdateAppointmentData,
+  AppointmentsUpdateAppointmentResponse,
+  AppointmentsDeleteAppointmentData,
+  AppointmentsDeleteAppointmentResponse,
+  BusinessesReadBusinessesData,
+  BusinessesReadBusinessesResponse,
+  BusinessesCreateBusinessData,
+  BusinessesCreateBusinessResponse,
+  BusinessesReadBusinessData,
+  BusinessesReadBusinessResponse,
+  BusinessesUpdateBusinessData,
+  BusinessesUpdateBusinessResponse,
+  BusinessesDeleteBusinessData,
+  BusinessesDeleteBusinessResponse,
+  ClientsCreateClientData,
+  ClientsCreateClientResponse,
+  ClientsReadClientsData,
+  ClientsReadClientsResponse,
+  ClientsUpdateClientData,
+  ClientsUpdateClientResponse,
+  ClientsDeleteClientData,
+  ClientsDeleteClientResponse,
+  ClientsReadClientData,
+  ClientsReadClientResponse,
   GoogleBusinessAuthorizeGoogleBusinessResponse,
   GoogleBusinessOauth2CallbackResponse,
   ItemsReadItemsData,
@@ -70,7 +90,137 @@ import type {
   UtilsHealthCheckResponse,
 } from "./types.gen"
 
-export class BusinessService {
+export class AppointmentsService {
+  /**
+   * Create Appointment
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Appointment Successful Response
+   * @throws ApiError
+   */
+  public static createAppointment(
+    data: AppointmentsCreateAppointmentData,
+  ): CancelablePromise<AppointmentsCreateAppointmentResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/appointments/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Appointments
+   * @param data The data for the request.
+   * @param data.skip
+   * @param data.limit
+   * @param data.businessId
+   * @returns Appointment Successful Response
+   * @throws ApiError
+   */
+  public static readAppointments(
+    data: AppointmentsReadAppointmentsData = {},
+  ): CancelablePromise<AppointmentsReadAppointmentsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/appointments/",
+      query: {
+        skip: data.skip,
+        limit: data.limit,
+        business_id: data.businessId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Appointment
+   * @param data The data for the request.
+   * @param data.appointmentId
+   * @param data.businessId
+   * @returns Appointment Successful Response
+   * @throws ApiError
+   */
+  public static readAppointment(
+    data: AppointmentsReadAppointmentData,
+  ): CancelablePromise<AppointmentsReadAppointmentResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/appointments/{appointment_id}",
+      path: {
+        appointment_id: data.appointmentId,
+      },
+      query: {
+        business_id: data.businessId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Appointment
+   * @param data The data for the request.
+   * @param data.appointmentId
+   * @param data.requestBody
+   * @param data.businessId
+   * @returns Appointment Successful Response
+   * @throws ApiError
+   */
+  public static updateAppointment(
+    data: AppointmentsUpdateAppointmentData,
+  ): CancelablePromise<AppointmentsUpdateAppointmentResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/appointments/{appointment_id}",
+      path: {
+        appointment_id: data.appointmentId,
+      },
+      query: {
+        business_id: data.businessId,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Appointment
+   * @param data The data for the request.
+   * @param data.appointmentId
+   * @param data.businessId
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteAppointment(
+    data: AppointmentsDeleteAppointmentData,
+  ): CancelablePromise<AppointmentsDeleteAppointmentResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/appointments/{appointment_id}",
+      path: {
+        appointment_id: data.appointmentId,
+      },
+      query: {
+        business_id: data.businessId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+export class BusinessesService {
   /**
    * Read Businesses
    * # Query all businesses owned by the current user
@@ -84,11 +234,11 @@ export class BusinessService {
    * @throws ApiError
    */
   public static readBusinesses(
-    data: BusinessReadBusinessesData = {},
-  ): CancelablePromise<BusinessReadBusinessesResponse> {
+    data: BusinessesReadBusinessesData = {},
+  ): CancelablePromise<BusinessesReadBusinessesResponse> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/business/",
+      url: "/api/v1/businesses/",
       query: {
         skip: data.skip,
         limit: data.limit,
@@ -107,11 +257,11 @@ export class BusinessService {
    * @throws ApiError
    */
   public static createBusiness(
-    data: BusinessCreateBusinessData,
-  ): CancelablePromise<BusinessCreateBusinessResponse> {
+    data: BusinessesCreateBusinessData,
+  ): CancelablePromise<BusinessesCreateBusinessResponse> {
     return __request(OpenAPI, {
       method: "POST",
-      url: "/api/v1/business/",
+      url: "/api/v1/businesses/",
       body: data.requestBody,
       mediaType: "application/json",
       errors: {
@@ -128,11 +278,11 @@ export class BusinessService {
    * @throws ApiError
    */
   public static readBusiness(
-    data: BusinessReadBusinessData,
-  ): CancelablePromise<BusinessReadBusinessResponse> {
+    data: BusinessesReadBusinessData,
+  ): CancelablePromise<BusinessesReadBusinessResponse> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/business/{business_id}",
+      url: "/api/v1/businesses/{business_id}",
       path: {
         business_id: data.businessId,
       },
@@ -151,11 +301,11 @@ export class BusinessService {
    * @throws ApiError
    */
   public static updateBusiness(
-    data: BusinessUpdateBusinessData,
-  ): CancelablePromise<BusinessUpdateBusinessResponse> {
+    data: BusinessesUpdateBusinessData,
+  ): CancelablePromise<BusinessesUpdateBusinessResponse> {
     return __request(OpenAPI, {
       method: "PUT",
-      url: "/api/v1/business/{business_id}",
+      url: "/api/v1/businesses/{business_id}",
       path: {
         business_id: data.businessId,
       },
@@ -175,13 +325,135 @@ export class BusinessService {
    * @throws ApiError
    */
   public static deleteBusiness(
-    data: BusinessDeleteBusinessData,
-  ): CancelablePromise<BusinessDeleteBusinessResponse> {
+    data: BusinessesDeleteBusinessData,
+  ): CancelablePromise<BusinessesDeleteBusinessResponse> {
     return __request(OpenAPI, {
       method: "DELETE",
-      url: "/api/v1/business/{business_id}",
+      url: "/api/v1/businesses/{business_id}",
       path: {
         business_id: data.businessId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+export class ClientsService {
+  /**
+   * Create Client
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Client Successful Response
+   * @throws ApiError
+   */
+  public static createClient(
+    data: ClientsCreateClientData,
+  ): CancelablePromise<ClientsCreateClientResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/clients/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Clients
+   * @param data The data for the request.
+   * @param data.businessId
+   * @param data.skip
+   * @param data.limit
+   * @returns Client Successful Response
+   * @throws ApiError
+   */
+  public static readClients(
+    data: ClientsReadClientsData = {},
+  ): CancelablePromise<ClientsReadClientsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/clients/",
+      query: {
+        business_id: data.businessId,
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Client
+   * @param data The data for the request.
+   * @param data.clientId
+   * @param data.requestBody
+   * @param data.businessId
+   * @returns Client Successful Response
+   * @throws ApiError
+   */
+  public static updateClient(
+    data: ClientsUpdateClientData,
+  ): CancelablePromise<ClientsUpdateClientResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/clients/{client_id}",
+      path: {
+        client_id: data.clientId,
+      },
+      query: {
+        business_id: data.businessId,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Client
+   * @param data The data for the request.
+   * @param data.clientId
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteClient(
+    data: ClientsDeleteClientData,
+  ): CancelablePromise<ClientsDeleteClientResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/clients/{client_id}",
+      path: {
+        client_id: data.clientId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Client
+   * @param data The data for the request.
+   * @param data.clientId
+   * @returns Client Successful Response
+   * @throws ApiError
+   */
+  public static readClient(
+    data: ClientsReadClientData,
+  ): CancelablePromise<ClientsReadClientResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/clients/{client_id}",
+      path: {
+        client_id: data.clientId,
       },
       errors: {
         422: "Validation Error",
