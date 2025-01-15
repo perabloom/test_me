@@ -1,0 +1,12 @@
+to create a queryclient for frontend, go to ./backend and run:
+python -c "import app.main; import json; print(json.dumps(app.main.app.openapi()))" > ../openapi.json
+
+NOT REMOVE THE 2-3 lines outside of {} from there
+
+mv ../openapi.json ../../FE/frontend
+
+
+and then go to ./frontend and call
+
+npm run generate-client
+npx biome format --write ./src/client

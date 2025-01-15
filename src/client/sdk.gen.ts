@@ -37,6 +37,16 @@ import type {
   LoginRecoverPasswordHtmlContentResponse,
   PrivateCreateUserData,
   PrivateCreateUserResponse,
+  StaffsCreateStaffData,
+  StaffsCreateStaffResponse,
+  StaffsReadStaffsData,
+  StaffsReadStaffsResponse,
+  StaffsReadStaffData,
+  StaffsReadStaffResponse,
+  StaffsUpdateStaffData,
+  StaffsUpdateStaffResponse,
+  StaffsDeleteStaffData,
+  StaffsDeleteStaffResponse,
   UsersReadUsersData,
   UsersReadUsersResponse,
   UsersCreateUserData,
@@ -449,6 +459,124 @@ export class PrivateService {
       url: "/api/v1/private/users/",
       body: data.requestBody,
       mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+}
+
+export class StaffsService {
+  /**
+   * Create Staff
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns Staff Successful Response
+   * @throws ApiError
+   */
+  public static createStaff(
+    data: StaffsCreateStaffData,
+  ): CancelablePromise<StaffsCreateStaffResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/staffs/",
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Staffs
+   * @param data The data for the request.
+   * @param data.businessId
+   * @param data.skip
+   * @param data.limit
+   * @returns Staff Successful Response
+   * @throws ApiError
+   */
+  public static readStaffs(
+    data: StaffsReadStaffsData = {},
+  ): CancelablePromise<StaffsReadStaffsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/staffs/",
+      query: {
+        business_id: data.businessId,
+        skip: data.skip,
+        limit: data.limit,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Read Staff
+   * @param data The data for the request.
+   * @param data.staffId
+   * @returns Staff Successful Response
+   * @throws ApiError
+   */
+  public static readStaff(
+    data: StaffsReadStaffData,
+  ): CancelablePromise<StaffsReadStaffResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/staffs/{staff_id}",
+      path: {
+        staff_id: data.staffId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Update Staff
+   * @param data The data for the request.
+   * @param data.staffId
+   * @param data.requestBody
+   * @returns Staff Successful Response
+   * @throws ApiError
+   */
+  public static updateStaff(
+    data: StaffsUpdateStaffData,
+  ): CancelablePromise<StaffsUpdateStaffResponse> {
+    return __request(OpenAPI, {
+      method: "PUT",
+      url: "/api/v1/staffs/{staff_id}",
+      path: {
+        staff_id: data.staffId,
+      },
+      body: data.requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Delete Staff
+   * @param data The data for the request.
+   * @param data.staffId
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static deleteStaff(
+    data: StaffsDeleteStaffData,
+  ): CancelablePromise<StaffsDeleteStaffResponse> {
+    return __request(OpenAPI, {
+      method: "DELETE",
+      url: "/api/v1/staffs/{staff_id}",
+      path: {
+        staff_id: data.staffId,
+      },
       errors: {
         422: "Validation Error",
       },

@@ -14,6 +14,7 @@ export type Business = {
   address: string | null
   phone_number: string | null
   id?: string
+  created_at?: string
   owner_id: string
 }
 
@@ -69,6 +70,34 @@ export type PrivateUserCreate = {
   password: string
   full_name: string
   is_verified?: boolean
+}
+
+export type Staff = {
+  name: string
+  description?: string | null
+  start_date?: string
+  end_date?: string | null
+  status?: string
+  id?: string
+  created_at?: string
+  owner_id: string
+}
+
+export type StaffCreate = {
+  name: string
+  description?: string | null
+  start_date?: string
+  end_date?: string | null
+  status?: string
+  business_id?: string | null
+}
+
+export type StaffUpdate = {
+  name: string
+  description?: string | null
+  start_date?: string
+  end_date?: string | null
+  status?: string
 }
 
 export type Token = {
@@ -226,6 +255,39 @@ export type PrivateCreateUserData = {
 }
 
 export type PrivateCreateUserResponse = UserPublic
+
+export type StaffsCreateStaffData = {
+  requestBody: StaffCreate
+}
+
+export type StaffsCreateStaffResponse = Staff
+
+export type StaffsReadStaffsData = {
+  businessId?: string | null
+  limit?: number
+  skip?: number
+}
+
+export type StaffsReadStaffsResponse = Array<Staff>
+
+export type StaffsReadStaffData = {
+  staffId: string
+}
+
+export type StaffsReadStaffResponse = Staff
+
+export type StaffsUpdateStaffData = {
+  requestBody: StaffUpdate
+  staffId: string
+}
+
+export type StaffsUpdateStaffResponse = Staff
+
+export type StaffsDeleteStaffData = {
+  staffId: string
+}
+
+export type StaffsDeleteStaffResponse = Message
 
 export type UsersReadUsersData = {
   limit?: number
