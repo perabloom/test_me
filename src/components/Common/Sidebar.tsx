@@ -9,7 +9,6 @@ import {
   DrawerOverlay,
   Flex,
   IconButton,
-  Image,
   Text,
   useColorModeValue,
   useDisclosure,
@@ -17,7 +16,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query"
 import { FiLogOut, FiMenu } from "react-icons/fi"
 
-import Logo from "/assets/images/zflyn.png"
+
 import type { UserPublic } from "../../client"
 import useAuth from "../../hooks/useAuth"
 import SidebarItems from "./SidebarItems"
@@ -30,7 +29,7 @@ const Sidebar = () => {
   const currentUser = queryClient.getQueryData<UserPublic>(["currentUser"])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { logout } = useAuth()
-  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true)
+  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(false)
 
   const handleLogout = async () => {
     logout()
@@ -59,7 +58,7 @@ const Sidebar = () => {
           <DrawerBody py={8}>
             <Flex flexDir="column" justify="space-between">
               <Box>
-                <Image src={Logo} alt="logo" p={6} />
+
                 <SidebarItems onClose={onClose} />
                 <Flex
                   as="button"
@@ -111,13 +110,7 @@ const Sidebar = () => {
               transform={isSidebarExpanded ? "rotate(180deg)" : "rotate(0deg)"}
               transition="transform 0.2s ease-in-out"
             />
-            <Image
-              src={Logo}
-              alt="Logo"
-              w={isSidebarExpanded ? "180px" : "40px"}
-              maxW="2xs"
-              p={isSidebarExpanded ? 6 : 2}
-            />
+
             {isSidebarExpanded ? (
               <>
                 <SidebarItems />

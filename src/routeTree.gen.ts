@@ -26,6 +26,7 @@ import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as LayoutClientsImport } from './routes/_layout/clients'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAddClientImport } from './routes/_layout/add-client'
+import { Route as LayoutCRMImport } from './routes/_layout/CRM'
 
 // Create/Update Routes
 
@@ -105,6 +106,11 @@ const LayoutAddClientRoute = LayoutAddClientImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutCRMRoute = LayoutCRMImport.update({
+  path: '/CRM',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -140,6 +146,10 @@ declare module '@tanstack/react-router' {
     '/signup': {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
+    }
+    '/_layout/CRM': {
+      preLoaderRoute: typeof LayoutCRMImport
+      parentRoute: typeof LayoutImport
     }
     '/_layout/add-client': {
       preLoaderRoute: typeof LayoutAddClientImport
@@ -177,6 +187,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   LayoutRoute.addChildren([
+    LayoutCRMRoute,
     LayoutAddClientRoute,
     LayoutAdminRoute,
     LayoutClientsRoute,

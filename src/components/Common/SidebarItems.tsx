@@ -12,6 +12,7 @@ const items = [
   { icon: FiSettings, title: "User Settings", path: "/settings" },
   { icon: FiMapPin,  title: "Google Business Profile", path: "/google-business-profile"},
   { icon: FiUserPlus,  title: "Add Client", path: "/add-client"},
+  { icon: FiUsers, title: "CRM", path: "/crm" },
 ]
 
 interface SidebarItemsProps {
