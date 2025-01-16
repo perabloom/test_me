@@ -26,6 +26,7 @@ import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as LayoutClientsImport } from './routes/_layout/clients'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAddClientImport } from './routes/_layout/add-client'
+import { Route as LayoutStaffImport } from './routes/_layout/Staff'
 import { Route as LayoutCRMImport } from './routes/_layout/CRM'
 
 // Create/Update Routes
@@ -106,6 +107,11 @@ const LayoutAddClientRoute = LayoutAddClientImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutStaffRoute = LayoutStaffImport.update({
+  path: '/Staff',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutCRMRoute = LayoutCRMImport.update({
   path: '/CRM',
   getParentRoute: () => LayoutRoute,
@@ -151,6 +157,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCRMImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/Staff': {
+      preLoaderRoute: typeof LayoutStaffImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/add-client': {
       preLoaderRoute: typeof LayoutAddClientImport
       parentRoute: typeof LayoutImport
@@ -188,6 +198,7 @@ export const routeTree = rootRoute.addChildren([
   IndexRoute,
   LayoutRoute.addChildren([
     LayoutCRMRoute,
+    LayoutStaffRoute,
     LayoutAddClientRoute,
     LayoutAdminRoute,
     LayoutClientsRoute,
