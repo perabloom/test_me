@@ -2,7 +2,7 @@
 import { Box, Flex, Icon, Text, useColorModeValue } from "@chakra-ui/react"
 import { useQueryClient } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
-import { FiBriefcase, FiHome, FiSettings, FiUsers, FiMapPin, FiUserPlus , FiUser, FiAnchor} from "react-icons/fi"
+import { FiBriefcase, FiHome, FiSettings, FiUsers, FiMapPin, FiUserPlus , FiUser, FiAnchor, FiCalendar} from "react-icons/fi"
 import type { UserPublic } from "../../client"
 
 const items = [
@@ -13,6 +13,7 @@ const items = [
   { icon: FiUser,  title: "Add Client", path: "/add-client"},
   { icon: FiUserPlus, title: "CRM", path: "/crm" },
   { icon: FiAnchor, title: "Staff", path: "/staff" },
+  { icon: FiCalendar, title: "Appointments", path: "/appointments" },
 
 ]
 
