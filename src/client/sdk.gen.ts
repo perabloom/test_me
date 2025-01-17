@@ -85,6 +85,9 @@ import type {
   UsersUpdateUserResponse,
   UsersDeleteUserData,
   UsersDeleteUserResponse,
+  UsersGetOnboardingStatusResponse,
+  UsersSetOnboardingStatusData,
+  UsersSetOnboardingStatusResponse,
   UtilsTestEmailData,
   UtilsTestEmailResponse,
   UtilsHealthCheckResponse,
@@ -1061,6 +1064,42 @@ export class UsersService {
       url: "/api/v1/users/{user_id}",
       path: {
         user_id: data.userId,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Get Onboarding Status
+   * Get onboarding status for the current user.
+   * @returns boolean Successful Response
+   * @throws ApiError
+   */
+  public static getOnboardingStatus(): CancelablePromise<UsersGetOnboardingStatusResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/users/me/onboarding",
+    })
+  }
+
+  /**
+   * Set Onboarding Status
+   * Set onboarding status for the current user.
+   * @param data The data for the request.
+   * @param data.status
+   * @returns Message Successful Response
+   * @throws ApiError
+   */
+  public static setOnboardingStatus(
+    data: UsersSetOnboardingStatusData,
+  ): CancelablePromise<UsersSetOnboardingStatusResponse> {
+    return __request(OpenAPI, {
+      method: "PATCH",
+      url: "/api/v1/users/me/onboarding",
+      query: {
+        status: data.status,
       },
       errors: {
         422: "Validation Error",

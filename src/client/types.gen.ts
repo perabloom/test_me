@@ -476,6 +476,14 @@ export type UsersDeleteUserData = {
 
 export type UsersDeleteUserResponse = Message
 
+export type UsersGetOnboardingStatusResponse = boolean
+
+export type UsersSetOnboardingStatusData = {
+  status: boolean
+}
+
+export type UsersSetOnboardingStatusResponse = Message
+
 export type UtilsTestEmailData = {
   emailTo: string
 }
