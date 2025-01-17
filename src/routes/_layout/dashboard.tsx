@@ -2,12 +2,15 @@ import {  Button, Grid, IconButton, Flex, Card, Box, Container, Text,   useColor
 import { FaUserAstronaut } from "react-icons/fa"
 import { createFileRoute } from "@tanstack/react-router"
 import { useQuery } from "@tanstack/react-query"
+import { useEffect, useState } from "react";
+import { UsersService } from "../../client";
 
 import useAuth from "../../hooks/useAuth"
 import { BusinessesService } from "../../client/sdk.gen" // Import the service
 
 import { Stack } from "@chakra-ui/react"
 import { Skeleton } from "../../components/ui/skeleton"
+import OnboardingModal from "../../components/Common/OnboardingModal";
 
 export const Route = createFileRoute("/_layout/dashboard")({
   component: Dashboard,
@@ -21,10 +24,23 @@ function getBusinessesQueryOptions() {
 }
 
 function Dashboard() {
+  const [isOnboarding, setIsOnboarding] = useState(false);
   const { user: currentUser } = useAuth();
   const { data: businesses = [], isPending } = useQuery(getBusinessesQueryOptions());
   const cardBg = useColorModeValue("ui.light", "ui.dark");
   const cardColor = useColorModeValue("ui.dark", "ui.light");
+  useEffect(() => {
+    const checkOnboardingStatus = async () => {
+      try {
+        const status = await UsersService.getOnboardingStatus();
+        setIsOnboarding(!status);
+      } catch (error) {
+        console.error("Error checking onboarding status:", error);
+      }
+    };
+
+    checkOnboardingStatus();
+  }, []);
 
   if (isPending) {
     return (
@@ -39,6 +55,9 @@ function Dashboard() {
       </Container>
     );
   }
+
+
+
 
   return (
     <>
@@ -147,6 +166,7 @@ function Dashboard() {
         </Grid>
       </Box>
     </Container>
+    {isOnboarding && <OnboardingModal isOpen={isOnboarding} onClose={() => setIsOnboarding(false)} />}
     </>
   );
 }
