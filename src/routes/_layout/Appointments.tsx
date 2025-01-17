@@ -14,6 +14,7 @@ import {
     ModalHeader,
     ModalOverlay,
     Button,
+    Input,
     FormControl,
     FormLabel,
     Select,
@@ -29,7 +30,7 @@ import {
     Th,
     Td,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ClientsService, StaffsService, AppointmentsService } from "../../client";
 import { AppointmentCreate } from "../../client/types.gen";
 import { createFileRoute } from "@tanstack/react-router";
@@ -51,8 +52,9 @@ export const Route = createFileRoute("/_layout/Appointments")({
     component: Appointments,
 });
 import { Appointment } from "../../client/types.gen";
-export default function Appointments() {
 
+export default function Appointments() {
+    const [notes, setNotes] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isClientModalOpen, setIsClientModalOpen] = useState(false);
     const [selectedSlot, setSelectedSlot] = useState(null);
@@ -79,6 +81,7 @@ export default function Appointments() {
             }));
         },
     });
+
 
     const handleSelectSlot = (slotInfo: any) => {
         setSelectedSlot(slotInfo);
@@ -108,7 +111,7 @@ export default function Appointments() {
 
 
 
-
+    const queryClient = useQueryClient();
     const handleAddAppointment = async () => {
         if (client && staff && selectedSlot) {
             const newAppointment: AppointmentCreate = {
@@ -117,13 +120,36 @@ export default function Appointments() {
                 client_id: client,
                 staff_ids: [staff],
                 status: null,
-                notes: null,
+                notes: notes,
                 owner_id: null,
             };
             await AppointmentsService.createAppointment({ requestBody: newAppointment });
+            queryClient.invalidateQueries({ queryKey: ["appointments"] }); // Invalidate the appointments query
             setIsModalOpen(false);
         }
     };
+
+    const handleEditAppointment = (appointment: Appointment) => {
+        setSelectedAppointment(appointment);
+        setClient(appointment.client_id);
+        //setStaff(appointment.staff_ids[0]);
+        setNotes(appointment.notes || "");
+        setIsModalOpen(true);
+    };
+
+    const handleDeleteAppointment = async (appointment?: Appointment) => {
+        const appointmentToDelete = appointment || selectedAppointment;
+        if (appointmentToDelete && appointmentToDelete.id) {
+            try {
+                await AppointmentsService.deleteAppointment({ appointmentId: appointmentToDelete.id });
+                queryClient.invalidateQueries({ queryKey: ["appointments"] });
+                setIsModalOpen(false);
+            } catch (error) {
+                console.error("Error deleting appointment:", error);
+            }
+        }
+    };
+
 
     return (
         <Container maxW="full" mt={8} mb={8}>
@@ -173,17 +199,25 @@ export default function Appointments() {
                                             }
                                         </Td>
                                         <Td>
-                                            {(appointment as any).staff_ids && (appointment as any).staff_ids.length > 0
-                                                ? staffs?.find(staff => staff.id === (appointment as any).staff_ids[0])?.name || "N/A"
-                                                : "N/A"}
+                                            {clients?.find(client => client.id === appointment.client_id)?.first_name} {clients?.find(client => client.id === appointment.client_id)?.last_name || "N/A"}
                                         </Td>
                                         <Td>
                                             {clients?.find(client => client.id === appointment.client_id)?.address || "N/A"}
                                         </Td>
                                         <Td>{appointment.notes || "N/A"}</Td>
+                                        <Td>
+                                            <Button size="sm" colorScheme="blue" onClick={() => handleEditAppointment({
+                                                ...appointment,
+                                                appointment_start: appointment.appointment_start.toISOString(),
+                                                appointment_end: appointment.appointment_end.toISOString()
+                                            })}>
+                                                Edit
+                                            </Button>
+                                        </Td>
                                     </Tr>
                                 ))}
                             </Tbody>
+
                         </Table>
                     </TabPanel>
                     <TabPanel>
@@ -241,9 +275,23 @@ export default function Appointments() {
                             </Select>
 
                         </FormControl>
+                        <FormControl mt={4}>
+                            <FormLabel>Notes</FormLabel>
+                            <Input
+                                placeholder="Add notes"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                            />
+                        </FormControl>
+
                     </ModalBody>
 
                     <ModalFooter>
+                        {selectedAppointment && (
+                            <Button colorScheme="red" mr={3} onClick={() => handleDeleteAppointment()}>
+                                Delete
+                            </Button>
+                        )}
                         <Button colorScheme="blue" mr={3} onClick={handleAddAppointment}>
                             {selectedAppointment ? "Update" : "Add"}
                         </Button>
