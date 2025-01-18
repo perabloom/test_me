@@ -18,6 +18,9 @@ import { Route as LoginImport } from './routes/login'
 import { Route as Addme2Import } from './routes/addme2'
 import { Route as AddmeImport } from './routes/addme'
 import { Route as LayoutImport } from './routes/_layout'
+import { Route as TermsOfServiceImport } from './routes/TermsOfService'
+import { Route as PrivacyPolicyImport } from './routes/PrivacyPolicy'
+import { Route as ContactUsImport } from './routes/ContactUs'
 import { Route as IndexImport } from './routes/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
 import { Route as LayoutItemsImport } from './routes/_layout/items'
@@ -64,6 +67,21 @@ const AddmeRoute = AddmeImport.update({
 
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TermsOfServiceRoute = TermsOfServiceImport.update({
+  path: '/TermsOfService',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PrivacyPolicyRoute = PrivacyPolicyImport.update({
+  path: '/PrivacyPolicy',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ContactUsRoute = ContactUsImport.update({
+  path: '/ContactUs',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -129,6 +147,18 @@ declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/ContactUs': {
+      preLoaderRoute: typeof ContactUsImport
+      parentRoute: typeof rootRoute
+    }
+    '/PrivacyPolicy': {
+      preLoaderRoute: typeof PrivacyPolicyImport
+      parentRoute: typeof rootRoute
+    }
+    '/TermsOfService': {
+      preLoaderRoute: typeof TermsOfServiceImport
       parentRoute: typeof rootRoute
     }
     '/_layout': {
@@ -206,6 +236,9 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  ContactUsRoute,
+  PrivacyPolicyRoute,
+  TermsOfServiceRoute,
   LayoutRoute.addChildren([
     LayoutAppointmentsRoute,
     LayoutCRMRoute,

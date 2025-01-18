@@ -26,6 +26,24 @@ import {
 } from '@chakra-ui/react';
 import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard, FaQuoteLeft } from 'react-icons/fa';
 
+import PrivacyPolicy from './PrivacyPolicy';
+import TermsOfService from './TermsOfService';
+import ContactUs from './ContactUs';
+
+
+// Define routes for the new pages
+export const PrivacyPolicyRoute = createFileRoute("/")({
+  component: PrivacyPolicy,
+});
+
+export const TermsOfServiceRoute = createFileRoute("/")({
+  component: TermsOfService,
+});
+
+export const ContactUsRoute = createFileRoute("/")({
+  component: ContactUs,
+});
+
 function LandingPage() {
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -266,10 +284,17 @@ function LandingPage() {
           <Flex justify="space-between" align="center" wrap="wrap">
             <Text>© {new Date().getFullYear()} ZFLYN All rights reserved.</Text>
             <Stack direction="row" spacing={4}>
-              <Button variant="link" colorScheme="whiteAlpha">Privacy Policy</Button>
-              <Button variant="link" colorScheme="whiteAlpha">Terms of Service</Button>
-              <Button variant="link" colorScheme="whiteAlpha">Contact Us</Button>
+              <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/PrivacyPolicy" })}>
+                Privacy Policy
+              </Button>
+              <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/TermsOfService" })}>
+                Terms of Service
+              </Button>
+              <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/ContactUs" })}>
+                Contact Us
+              </Button>
             </Stack>
+
           </Flex>
         </Container>
       </Box>
