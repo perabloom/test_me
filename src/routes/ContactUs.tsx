@@ -1,6 +1,7 @@
-import { Container, Heading, Text, FormControl, FormLabel, Input, Textarea, Button } from '@chakra-ui/react';
+import { Container, Heading, Text, FormControl, FormLabel, Input, Textarea, Button, Box } from '@chakra-ui/react';
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
+import NavigationBar from '../components/common/MainNavigationBar'; // Import the navigation bar
 
 export const Route = createFileRoute("/ContactUs")({
   component: ContactUs,
@@ -17,6 +18,9 @@ export default function ContactUs() {
   };
 
   return (
+    <>
+    <NavigationBar />
+    <Box pt="50px">
     <Container maxW="7xl" py={12}>
       <Heading as="h1" mb={6}>Contact Us</Heading>
       <Text mb={4}>
@@ -59,5 +63,7 @@ export default function ContactUs() {
         </Text>
       )}
     </Container>
+    </Box>
+    </>
   );
 }
