@@ -30,7 +30,9 @@ import { Route as LayoutDashboardImport } from './routes/_layout/dashboard'
 import { Route as LayoutClientsImport } from './routes/_layout/clients'
 import { Route as LayoutAdminImport } from './routes/_layout/admin'
 import { Route as LayoutAddClientImport } from './routes/_layout/add-client'
+import { Route as LayoutWebsiteImport } from './routes/_layout/Website'
 import { Route as LayoutStaffImport } from './routes/_layout/Staff'
+import { Route as LayoutSocialMediaImport } from './routes/_layout/SocialMedia'
 import { Route as LayoutCRMImport } from './routes/_layout/CRM'
 import { Route as LayoutAppointmentsImport } from './routes/_layout/Appointments'
 
@@ -132,8 +134,18 @@ const LayoutAddClientRoute = LayoutAddClientImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutWebsiteRoute = LayoutWebsiteImport.update({
+  path: '/Website',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutStaffRoute = LayoutStaffImport.update({
   path: '/Staff',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutSocialMediaRoute = LayoutSocialMediaImport.update({
+  path: '/SocialMedia',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -207,8 +219,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCRMImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/SocialMedia': {
+      preLoaderRoute: typeof LayoutSocialMediaImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/Staff': {
       preLoaderRoute: typeof LayoutStaffImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/Website': {
+      preLoaderRoute: typeof LayoutWebsiteImport
       parentRoute: typeof LayoutImport
     }
     '/_layout/add-client': {
@@ -253,7 +273,9 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAppointmentsRoute,
     LayoutCRMRoute,
+    LayoutSocialMediaRoute,
     LayoutStaffRoute,
+    LayoutWebsiteRoute,
     LayoutAddClientRoute,
     LayoutAdminRoute,
     LayoutClientsRoute,

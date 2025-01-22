@@ -40,6 +40,9 @@ interface UserRegisterForm extends UserRegister {
 }
 
 function SignUp() {
+  const query = new URLSearchParams(window.location.search);
+  const emailFromQuery = query.get('email') || '';
+
   const navigate = useNavigate()
   const { signUpMutation } = useAuth()
   const {
@@ -51,7 +54,7 @@ function SignUp() {
     mode: "onBlur",
     criteriaMode: "all",
     defaultValues: {
-      email: "",
+      email: emailFromQuery,
       full_name: "",
       password: "",
       confirm_password: "",

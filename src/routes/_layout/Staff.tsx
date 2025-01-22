@@ -93,7 +93,6 @@ import {
                       <Th>Name</Th>
                       <Th>Description</Th>
                       <Th>Start Date</Th>
-                      <Th>End Date</Th>
                       <Th>Status</Th>
                       <Th>Actions</Th>
                     </Tr>
@@ -104,7 +103,6 @@ import {
                         <Td>{staff.name}</Td>
                         <Td>{staff.description}</Td>
                         <Td>{staff.start_date}</Td>
-                        <Td>{staff.end_date}</Td>
                         <Td>{staff.status}</Td>
                         <Td>
                           <ActionsMenu type={"Staff"} value={staff as any} />

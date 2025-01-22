@@ -55,6 +55,8 @@ export const LearnMoreRoute = createFileRoute("/")({
 function LandingPage() {
   const navigate = useNavigate()
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -199,10 +201,27 @@ function LandingPage() {
             <Text>
               Please enter your email address to start your free trial.
             </Text>
-            <Input type="email" placeholder="Email address" />
+            <Input type="email" placeholder="Email address" value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError('');
+              }} />
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            {emailError && <Text color="red.500">{emailError}</Text>}
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() => {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                  setEmailError('Please enter a valid email address.');
+                  return;
+                }
+                navigate({ to: `/signup?email=${encodeURIComponent(email)}` });
+                handleModalClose();
+              }}
+            >
               Start Free Trial
             </Button>
             <Button variant="outline" colorScheme="blue" onClick={handleModalClose}>
@@ -211,6 +230,7 @@ function LandingPage() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+
 
       {/* Feature Section */}
       <Box bg={useColorModeValue('gray.100', 'gray.700')}>
@@ -288,25 +308,26 @@ function LandingPage() {
       </Container>
 
       {/* Footer Section */}
-      <Box bg={useColorModeValue('gray.800', 'gray.900')} color="white" py={10}>
-        <Container maxW="7xl">
-          <Flex justify="space-between" align="center" wrap="wrap">
-            <Text>© {new Date().getFullYear()} ZFLYN All rights reserved.</Text>
-            <Stack direction="row" spacing={4}>
-              <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/PrivacyPolicy" })}>
-                Privacy Policy
-              </Button>
-              <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/TermsOfService" })}>
-                Terms of Service
-              </Button>
-              <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/ContactUs" })}>
-                Contact Us
-              </Button>
-            </Stack>
+<Box bg={useColorModeValue('gray.800', 'gray.900')} color="white" py={10}>
+  <Container maxW="7xl">
+    <Flex justify="space-between" align="center" wrap="wrap">
+      <Text> {new Date().getFullYear()} Pristine Tech Labs LLC. All rights reserved.</Text>
+      <Text>30 N Gould St Ste N Sheridan, WY 82801</Text>
+      <Stack direction="row" spacing={4}>
+        <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/PrivacyPolicy" })}>
+          Privacy Policy
+        </Button>
+        <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/TermsOfService" })}>
+          Terms of Service
+        </Button>
+        <Button variant="link" colorScheme="whiteAlpha" onClick={() => navigate({ to: "/ContactUs" })}>
+          Contact Us
+        </Button>
+      </Stack>
 
-          </Flex>
-        </Container>
-      </Box>
+    </Flex>
+  </Container>
+</Box>
     </Box>
   );
 }
@@ -393,7 +414,7 @@ const reviews = [
       text: "The CRM and social media tools have helped us engage with our customers like never before. Highly recommended!",
       name: "Jane Smith",
       position: "Marketing Manager",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&q=80",
+      avatar: "https://plus.unsplash.com/premium_photo-1691784781482-9af9bce05096?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80",
     },
     {
       text: "From scheduling to invoicing, this platform does it all. It's been a game-changer for our growing business.",
