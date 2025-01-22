@@ -29,6 +29,7 @@ import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfService from './TermsOfService';
 import ContactUs from './ContactUs';
+import LearnMore from './LearnMore';
 
 
 // Define routes for the new pages
@@ -42,6 +43,13 @@ export const TermsOfServiceRoute = createFileRoute("/")({
 
 export const ContactUsRoute = createFileRoute("/")({
   component: ContactUs,
+});
+
+
+
+// Define routes for the new pages
+export const LearnMoreRoute = createFileRoute("/")({
+  component: LearnMore,
 });
 
 function LandingPage() {
@@ -135,6 +143,7 @@ function LandingPage() {
                 size={'lg'}
                 fontWeight={'normal'}
                 px={6}
+                onClick={() => navigate({ to: "/LearnMore" })}
               >
                 Learn More
               </Button>

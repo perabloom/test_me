@@ -20,6 +20,7 @@ import { Route as AddmeImport } from './routes/addme'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as TermsOfServiceImport } from './routes/TermsOfService'
 import { Route as PrivacyPolicyImport } from './routes/PrivacyPolicy'
+import { Route as LearnMoreImport } from './routes/LearnMore'
 import { Route as ContactUsImport } from './routes/ContactUs'
 import { Route as IndexImport } from './routes/index'
 import { Route as LayoutSettingsImport } from './routes/_layout/settings'
@@ -77,6 +78,11 @@ const TermsOfServiceRoute = TermsOfServiceImport.update({
 
 const PrivacyPolicyRoute = PrivacyPolicyImport.update({
   path: '/PrivacyPolicy',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LearnMoreRoute = LearnMoreImport.update({
+  path: '/LearnMore',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -151,6 +157,10 @@ declare module '@tanstack/react-router' {
     }
     '/ContactUs': {
       preLoaderRoute: typeof ContactUsImport
+      parentRoute: typeof rootRoute
+    }
+    '/LearnMore': {
+      preLoaderRoute: typeof LearnMoreImport
       parentRoute: typeof rootRoute
     }
     '/PrivacyPolicy': {
@@ -237,6 +247,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   ContactUsRoute,
+  LearnMoreRoute,
   PrivacyPolicyRoute,
   TermsOfServiceRoute,
   LayoutRoute.addChildren([
