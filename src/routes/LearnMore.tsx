@@ -1,7 +1,7 @@
 import { Container, Heading, Text, Box, SimpleGrid, Icon, Stack, Button } from '@chakra-ui/react';
 import { createFileRoute } from '@tanstack/react-router';
 import { FaChartLine, FaAd, FaUsers, FaShareAlt, FaCalendarAlt, FaSearch, FaStar, FaListUl, FaLaptopCode, FaCreditCard } from 'react-icons/fa';
-import NavigationBar from '../components/common/MainNavigationBar';
+import NavigationBar from '../components/Common/MainNavigationBar';
 export const Route = createFileRoute("/LearnMore")({
   component: LearnMore,
 });

@@ -1,6 +1,6 @@
 import { Container, Heading, Text, Box } from '@chakra-ui/react';
 import { createFileRoute } from '@tanstack/react-router';
-import NavigationBar from '../components/common/MainNavigationBar';
+import NavigationBar from '../components/Common/MainNavigationBar';
 export const Route = createFileRoute("/TermsOfService")({
   component: TermsOfService,
 });

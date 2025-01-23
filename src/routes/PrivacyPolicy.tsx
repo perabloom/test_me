@@ -1,6 +1,6 @@
 import { Container, Heading, Text, Box } from '@chakra-ui/react';
 import { createFileRoute } from '@tanstack/react-router';
-import NavigationBar from '../components/common/MainNavigationBar';
+import MainNavigationBar from '../components/Common/MainNavigationBar';
 export const Route = createFileRoute("/PrivacyPolicy")({
   component: PrivacyPolicy,
 });
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/PrivacyPolicy")({
 export default function PrivacyPolicy() {
   return (
     <>
-    <NavigationBar />
+    <MainNavigationBar />
     <Box pt="50px">
       <Container maxW="7xl" py={12}>
         <Heading as="h1" mb={6}>Privacy Policy</Heading>
