@@ -16,6 +16,7 @@ import {
   createFileRoute,
   redirect,
 } from "@tanstack/react-router"
+import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form"
 import { useNavigate } from "@tanstack/react-router"
 
@@ -71,6 +72,67 @@ function SignUp() {
     }
 
   }
+  useEffect(() => {
+    // Load the Facebook SDK script
+    const loadFacebookSDK = () => {
+      (window as any).fbAsyncInit = function() {
+        (window as any).FB.init({
+          appId      : '1155592099418918', // Replace with your app ID
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v22.0' // Replace with the API version you want to use
+        });
+
+        (window as any).FB.AppEvents.logPageView();
+
+        // Check login status
+        (window as any).FB.getLoginStatus(function(response: any) {
+          statusChangeCallback(response);
+        });
+      };
+
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        (js as HTMLScriptElement).src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs?.parentNode?.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    };
+
+    loadFacebookSDK();
+  }, []);
+
+  const statusChangeCallback = (response: any) => {
+    if (response.status === 'connected') {
+      console.log('User is logged into Facebook and your app.');
+      // Redirect to the logged-in experience
+      navigate({ to: "/dashboard" });
+    } else if (response.status === 'not_authorized') {
+      console.log('User is logged into Facebook but not your app.');
+      // Prompt them with the Login dialog
+      handleFacebookLogin();
+    } else {
+      console.log('User is not logged into Facebook.');
+      // Show the Login Button or prompt them with the Login dialog
+      handleFacebookLogin();
+    }
+  };
+
+
+  const handleFacebookLogin = () => {
+    (window as any).FB.login((response: any) => {
+      if (response.authResponse) {
+        console.log('Welcome! Fetching your information.... ');
+        (window as any).FB.api('/me', function(response: any) {
+          console.log('Good to see you, ' + response.name + '.');
+          // Handle the response and navigate or update state as needed
+        });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    });
+  };
 
   return (
     <>
@@ -178,6 +240,9 @@ function SignUp() {
             isLoading={isSubmitting}
           >
             Sign Up
+          </Button>
+          <Button onClick={handleFacebookLogin} colorScheme="blue">
+            Login with Facebook
           </Button>
           <Text>
             Already have an account?{" "}
