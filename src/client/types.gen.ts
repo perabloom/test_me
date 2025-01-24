@@ -383,6 +383,12 @@ export type LoginRecoverPasswordHtmlContentData = {
 
 export type LoginRecoverPasswordHtmlContentResponse = string
 
+export type MetaVerifyWebhookResponse = unknown
+
+export type MetaMetaWebhookResponse = unknown
+
+export type MetaHandleInstagramAuthResponse = unknown
+
 export type PrivateCreateUserData = {
   requestBody: PrivateUserCreate
 }
@@ -491,3 +497,9 @@ export type UtilsTestEmailData = {
 export type UtilsTestEmailResponse = Message
 
 export type UtilsHealthCheckResponse = boolean
+
+export type UtilsGetFacebookUserData = {
+  accessToken: string
+}
+
+export type UtilsGetFacebookUserResponse = unknown

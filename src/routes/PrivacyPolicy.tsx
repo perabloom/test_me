@@ -50,6 +50,16 @@ export default function PrivacyPolicy() {
         <Text mb={4}>
           We implement appropriate technical and organizational measures to protect your personal information from unauthorized access, use, or disclosure.
         </Text>
+        <Heading as="h2" size="md" mt={6} mb={4}>Disclosure of User Data to Public Authorities</Heading>
+          <Text mb={4}>
+            We may disclose your personal information to public authorities if required by law or if we believe that such action is necessary to comply with legal obligations. We will review the legality of these requests and challenge them if they are considered unlawful.
+          </Text>
+          <Text mb={4}>
+            We are committed to data minimization and will disclose only the minimum information necessary to comply with such requests.
+          </Text>
+          <Text mb={4}>
+            We document all requests from public authorities, including our responses and the legal reasoning and actors involved.
+          </Text>
         <Heading as="h2" size="md" mt={6} mb={4}>Your Rights</Heading>
         <Text mb={4}>
           You have the right to access, update, or delete your personal information. You can do this by logging into your account or contacting us directly.

@@ -55,6 +55,9 @@ import type {
   LoginResetPasswordResponse,
   LoginRecoverPasswordHtmlContentData,
   LoginRecoverPasswordHtmlContentResponse,
+  MetaVerifyWebhookResponse,
+  MetaMetaWebhookResponse,
+  MetaHandleInstagramAuthResponse,
   PrivateCreateUserData,
   PrivateCreateUserResponse,
   StaffsCreateStaffData,
@@ -91,6 +94,8 @@ import type {
   UtilsTestEmailData,
   UtilsTestEmailResponse,
   UtilsHealthCheckResponse,
+  UtilsGetFacebookUserData,
+  UtilsGetFacebookUserResponse,
 } from "./types.gen"
 
 export class AppointmentsService {
@@ -717,6 +722,47 @@ export class LoginService {
   }
 }
 
+export class MetaService {
+  /**
+   * Verify Webhook
+   * Verify webhook subscription from Facebook and Instagram.
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static verifyWebhook(): CancelablePromise<MetaVerifyWebhookResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/meta/webhook",
+    })
+  }
+
+  /**
+   * Meta Webhook
+   * Handle webhook events from Facebook and Instagram.
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static metaWebhook(): CancelablePromise<MetaMetaWebhookResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/meta/webhook",
+    })
+  }
+
+  /**
+   * Handle Instagram Auth
+   * Handle Instagram authorization code and exchange it for an access token.
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static handleInstagramAuth(): CancelablePromise<MetaHandleInstagramAuthResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/meta/auth/instagram",
+    })
+  }
+}
+
 export class PrivateService {
   /**
    * Create User
@@ -1141,6 +1187,29 @@ export class UtilsService {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/v1/utils/health-check/",
+    })
+  }
+
+  /**
+   * Get Facebook User
+   * Get Facebook user data using access token.
+   * @param data The data for the request.
+   * @param data.accessToken
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static getFacebookUser(
+    data: UtilsGetFacebookUserData,
+  ): CancelablePromise<UtilsGetFacebookUserResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/utils/facebook-user/",
+      query: {
+        access_token: data.accessToken,
+      },
+      errors: {
+        422: "Validation Error",
+      },
     })
   }
 }
