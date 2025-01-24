@@ -57,6 +57,7 @@ import type {
   LoginRecoverPasswordHtmlContentResponse,
   MetaVerifyWebhookResponse,
   MetaMetaWebhookResponse,
+  MetaHandleInstagramAuthData,
   MetaHandleInstagramAuthResponse,
   PrivateCreateUserData,
   PrivateCreateUserResponse,
@@ -752,13 +753,23 @@ export class MetaService {
   /**
    * Handle Instagram Auth
    * Handle Instagram authorization code and exchange it for an access token.
+   * @param data The data for the request.
+   * @param data.code
    * @returns unknown Successful Response
    * @throws ApiError
    */
-  public static handleInstagramAuth(): CancelablePromise<MetaHandleInstagramAuthResponse> {
+  public static handleInstagramAuth(
+    data: MetaHandleInstagramAuthData,
+  ): CancelablePromise<MetaHandleInstagramAuthResponse> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/v1/meta/auth/instagram",
+      query: {
+        code: data.code,
+      },
+      errors: {
+        422: "Validation Error",
+      },
     })
   }
 }

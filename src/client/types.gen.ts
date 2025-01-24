@@ -387,6 +387,10 @@ export type MetaVerifyWebhookResponse = unknown
 
 export type MetaMetaWebhookResponse = unknown
 
+export type MetaHandleInstagramAuthData = {
+  code: string
+}
+
 export type MetaHandleInstagramAuthResponse = unknown
 
 export type PrivateCreateUserData = {

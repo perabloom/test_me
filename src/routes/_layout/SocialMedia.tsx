@@ -1,21 +1,17 @@
 import { Container, Heading, Box, SimpleGrid, IconButton, Text } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute} from '@tanstack/react-router';
+
 
 export const Route = createFileRoute("/_layout/SocialMedia")({
   component: SocialMedia,
 });
 
 export default function SocialMedia() {
+
   const handleConnectFacebook = () => {
     // Logic to connect to Facebook
     console.log("Connecting to Facebook...");
-    // Add your connection logic here
-  };
-
-  const handleConnectInstagram = () => {
-    // Logic to connect to Instagram
-    console.log("Connecting to Instagram...");
     // Add your connection logic here
   };
 
@@ -50,11 +46,13 @@ export default function SocialMedia() {
           boxShadow="md"
           textAlign="center"
           cursor="pointer"
-          onClick={handleConnectInstagram} // Connect to Instagram
         >
-          <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
-          <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
+          <a href="https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=1687717362158671&redirect_uri=https://www.zflyn.com/IGReroute&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights" target="_blank" rel="noopener noreferrer">
+            <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
+            <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
+          </a>
         </Box>
+
         <Box
           p={6}
           borderWidth="1px"
@@ -71,3 +69,15 @@ export default function SocialMedia() {
     </Container>
   );
 }
+
+
+
+
+// const handleConnectInstagram = () => {
+//   // Redirect to Instagram's OAuth page
+//   const clientId = '1687717362158671'; // Replace with your Instagram client ID
+//   const redirectUri = 'YOUR_REDIRECT_URI'; // Replace with your redirect URI
+//   const instagramAuthUrl = `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user_profile,user_media&response_type=code`;
+
+//   window.location.href = instagramAuthUrl;
+// };

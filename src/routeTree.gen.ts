@@ -33,6 +33,7 @@ import { Route as LayoutAddClientImport } from './routes/_layout/add-client'
 import { Route as LayoutWebsiteImport } from './routes/_layout/Website'
 import { Route as LayoutStaffImport } from './routes/_layout/Staff'
 import { Route as LayoutSocialMediaImport } from './routes/_layout/SocialMedia'
+import { Route as LayoutIGRerouteImport } from './routes/_layout/IGReroute'
 import { Route as LayoutCRMImport } from './routes/_layout/CRM'
 import { Route as LayoutAppointmentsImport } from './routes/_layout/Appointments'
 
@@ -149,6 +150,11 @@ const LayoutSocialMediaRoute = LayoutSocialMediaImport.update({
   getParentRoute: () => LayoutRoute,
 } as any)
 
+const LayoutIGRerouteRoute = LayoutIGRerouteImport.update({
+  path: '/IGReroute',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
 const LayoutCRMRoute = LayoutCRMImport.update({
   path: '/CRM',
   getParentRoute: () => LayoutRoute,
@@ -219,6 +225,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutCRMImport
       parentRoute: typeof LayoutImport
     }
+    '/_layout/IGReroute': {
+      preLoaderRoute: typeof LayoutIGRerouteImport
+      parentRoute: typeof LayoutImport
+    }
     '/_layout/SocialMedia': {
       preLoaderRoute: typeof LayoutSocialMediaImport
       parentRoute: typeof LayoutImport
@@ -273,6 +283,7 @@ export const routeTree = rootRoute.addChildren([
   LayoutRoute.addChildren([
     LayoutAppointmentsRoute,
     LayoutCRMRoute,
+    LayoutIGRerouteRoute,
     LayoutSocialMediaRoute,
     LayoutStaffRoute,
     LayoutWebsiteRoute,
