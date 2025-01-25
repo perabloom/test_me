@@ -1,4 +1,4 @@
-import { Container, Heading, Box, SimpleGrid, IconButton, Text, Badge, Flex, Tooltip } from '@chakra-ui/react';
+import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Tooltip } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
 import { createFileRoute} from '@tanstack/react-router';
 
