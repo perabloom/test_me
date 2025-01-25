@@ -393,6 +393,21 @@ export type MetaHandleInstagramAuthData = {
 
 export type MetaHandleInstagramAuthResponse = unknown
 
+export type MetaFetchInstagramProfileResponse = unknown
+
+export type MetaFetchInstagramPostsResponse = unknown
+
+export type MetaCreateInstagramPostData = {
+  caption: string
+  imageUrl: string
+}
+
+export type MetaCreateInstagramPostResponse = unknown
+
+export type MetaIsInstagramConnectedResponse = boolean
+
+export type MetaDisconnectInstagramResponse = unknown
+
 export type PrivateCreateUserData = {
   requestBody: PrivateUserCreate
 }

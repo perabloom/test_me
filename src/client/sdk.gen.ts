@@ -59,6 +59,12 @@ import type {
   MetaMetaWebhookResponse,
   MetaHandleInstagramAuthData,
   MetaHandleInstagramAuthResponse,
+  MetaFetchInstagramProfileResponse,
+  MetaFetchInstagramPostsResponse,
+  MetaCreateInstagramPostData,
+  MetaCreateInstagramPostResponse,
+  MetaIsInstagramConnectedResponse,
+  MetaDisconnectInstagramResponse,
   PrivateCreateUserData,
   PrivateCreateUserResponse,
   StaffsCreateStaffData,
@@ -770,6 +776,83 @@ export class MetaService {
       errors: {
         422: "Validation Error",
       },
+    })
+  }
+
+  /**
+   * Fetch Instagram Profile
+   * Fetch the Instagram user's profile picture and basic info.
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static fetchInstagramProfile(): CancelablePromise<MetaFetchInstagramProfileResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/meta/instagram/profile",
+    })
+  }
+
+  /**
+   * Fetch Instagram Posts
+   * Fetch the Instagram user's recent posts.
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static fetchInstagramPosts(): CancelablePromise<MetaFetchInstagramPostsResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/meta/instagram/posts",
+    })
+  }
+
+  /**
+   * Create Instagram Post
+   * Create and publish a post on Instagram.
+   * @param data The data for the request.
+   * @param data.imageUrl
+   * @param data.caption
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static createInstagramPost(
+    data: MetaCreateInstagramPostData,
+  ): CancelablePromise<MetaCreateInstagramPostResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/meta/instagram/post",
+      query: {
+        image_url: data.imageUrl,
+        caption: data.caption,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Is Instagram Connected
+   * Check if the user is connected to Instagram and if the access token is still valid.
+   * @returns boolean Successful Response
+   * @throws ApiError
+   */
+  public static isInstagramConnected(): CancelablePromise<MetaIsInstagramConnectedResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/meta/instagram/connected",
+    })
+  }
+
+  /**
+   * Disconnect Instagram
+   * Disconnect the user's Instagram account by removing the access token and expiration date.
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static disconnectInstagram(): CancelablePromise<MetaDisconnectInstagramResponse> {
+    return __request(OpenAPI, {
+      method: "POST",
+      url: "/api/v1/meta/instagram/disconnect",
     })
   }
 }
