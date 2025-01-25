@@ -1,17 +1,20 @@
-import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Tooltip } from '@chakra-ui/react';
+import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Tooltip, Spinner } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
 import { createFileRoute} from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
+import { MetaService } from '../../client/sdk.gen'; // Adjust the import path as necessary
 
 
 export const Route = createFileRoute("/_layout/SocialMedia")({
   component: SocialMedia,
 });
-const isInstagramConnected = () => {
-  // Logic to check if Instagram is connected
-  return true; // Replace with actual logic to check connection
-};
 
 export default function SocialMedia() {
+
+  const { data: isInstagramConnected, isLoading } = useQuery({
+    queryKey: ['isInstagramConnected'],
+    queryFn: () => MetaService.isInstagramConnected()
+  });
 
   const handleConnectFacebook = () => {
     // Logic to connect to Facebook
@@ -50,13 +53,15 @@ export default function SocialMedia() {
           boxShadow="md"
           textAlign="center"
           cursor="pointer"
-          position="relative" // Make the box a relative container
+          position="relative"
         >
           <a href="https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=1687717362158671&redirect_uri=https://www.zflyn.com/IGReroute&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights" target="_blank" rel="noopener noreferrer">
             <Flex alignItems="center" justifyContent="center">
               <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
             </Flex>
-            {isInstagramConnected() && (
+            {isLoading ? (
+              <Spinner size="sm" position="absolute" top="8px" right="8px" />
+            ) : isInstagramConnected ? (
               <Tooltip label="Connected" aria-label="Connected">
                 <FaCheckCircle
                   color="green"
@@ -68,7 +73,7 @@ export default function SocialMedia() {
                   }}
                 />
               </Tooltip>
-            )}
+            ) : null}
             <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
           </a>
         </Box>
