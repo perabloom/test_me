@@ -1,4 +1,5 @@
 import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Spinner, useToast } from '@chakra-ui/react';
+import { Image, VStack, HStack } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
 import { createFileRoute} from '@tanstack/react-router';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -60,6 +61,19 @@ export default function SocialMedia() {
     // Add your connection logic here
   };
 
+
+  // Inside the SocialMedia component
+const { data: instagramProfile, isLoading: isLoadingProfile } = useQuery({
+  queryKey: ['fetchInstagramProfile'],
+  queryFn: () => MetaService.fetchInstagramProfile(),
+  enabled: !!isInstagramConnected
+});
+
+const { data: instagramPosts, isLoading: isLoadingPosts } = useQuery({
+  queryKey: ['fetchInstagramPosts'],
+  queryFn: () => MetaService.fetchInstagramPosts(),
+  enabled: !!isInstagramConnected
+});
   return (
     <Container maxW="7xl" py={12}>
       <Heading as="h1" mb={6} textAlign="center" color="blue.400">
@@ -121,6 +135,39 @@ export default function SocialMedia() {
           <Text fontSize="md" fontWeight="bold">Connect Twitter</Text>
         </Box>
       </SimpleGrid>
+      {isInstagramConnected && (
+  <VStack spacing={4} align="stretch" mt={8}>
+    {isLoadingProfile ? (
+      <Spinner />
+    ) : (
+      <HStack spacing={4} align="center">
+        <Image
+          borderRadius="full"
+          boxSize="50px"
+          src={(instagramProfile as any)?.profilePicture}
+          alt="Profile Picture"
+        />
+        <Text fontSize="lg" fontWeight="bold">{(instagramProfile as any)?.username}</Text>
+      </HStack>
+    )}
+
+    {isLoadingPosts ? (
+      <Spinner />
+    ) : (
+      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
+        {(instagramPosts as any)?.posts?.map((post: any, index: number) => (
+          <Box key={index} borderWidth="1px" borderRadius="lg" overflow="hidden">
+            <Image src={post.imageUrl} alt={`Post ${index}`} />
+            <Box p={4}>
+              <Text>{post.caption}</Text>
+            </Box>
+          </Box>
+        ))}
+      </SimpleGrid>
+    )}
+  </VStack>
+)}
+
     </Container>
   );
 }
