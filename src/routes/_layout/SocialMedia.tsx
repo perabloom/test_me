@@ -1,7 +1,7 @@
-import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Tooltip, Spinner } from '@chakra-ui/react';
+import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Spinner, useToast } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
 import { createFileRoute} from '@tanstack/react-router';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { MetaService } from '../../client/sdk.gen'; // Adjust the import path as necessary
 
 
@@ -10,11 +10,43 @@ export const Route = createFileRoute("/_layout/SocialMedia")({
 });
 
 export default function SocialMedia() {
-
+  const toast = useToast();
   const { data: isInstagramConnected, isLoading } = useQuery({
     queryKey: ['isInstagramConnected'],
     queryFn: () => MetaService.isInstagramConnected()
   });
+
+  const disconnectInstagramMutation = useMutation({
+    mutationFn: () => MetaService.disconnectInstagram(),
+    onSuccess: () => {
+      toast({
+        title: "Disconnected",
+        description: "Instagram has been disconnected.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to disconnect Instagram.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  });
+
+  const handleInstagramClick = () => {
+    if (isInstagramConnected) {
+      if (window.confirm("Do you want to disconnect Instagram?")) {
+        disconnectInstagramMutation.mutate();
+      }
+    } else {
+      window.location.href = "https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=1687717362158671&redirect_uri=https://www.zflyn.com/IGReroute&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights";
+    }
+  };
 
   const handleConnectFacebook = () => {
     // Logic to connect to Facebook
@@ -54,28 +86,26 @@ export default function SocialMedia() {
           textAlign="center"
           cursor="pointer"
           position="relative"
+          onClick={handleInstagramClick}
         >
-          <a href="https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=1687717362158671&redirect_uri=https://www.zflyn.com/IGReroute&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights" target="_blank" rel="noopener noreferrer">
-            <Flex alignItems="center" justifyContent="center">
-              <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
-            </Flex>
-            {isLoading ? (
-              <Spinner size="sm" position="absolute" top="8px" right="8px" />
-            ) : isInstagramConnected ? (
-              <Tooltip label="Connected" aria-label="Connected">
-                <FaCheckCircle
-                  color="green"
-                  size={20}
-                  style={{
-                    position: 'absolute',
-                    top: '8px',
-                    right: '8px',
-                  }}
-                />
-              </Tooltip>
-            ) : null}
-            <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
-          </a>
+          <Flex alignItems="center" justifyContent="center">
+            <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
+          </Flex>
+          {isLoading ? (
+            <Spinner size="sm" position="absolute" top="8px" right="8px" />
+          ) : isInstagramConnected ? (
+
+              <FaCheckCircle
+                color="green"
+                size={20}
+                style={{
+                  position: 'absolute',
+                  top: '8px',
+                  right: '8px',
+                }}
+              />
+          ) : null}
+          <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
         </Box>
 
         <Box
