@@ -1,11 +1,15 @@
-import { Container, Heading, Box, SimpleGrid, IconButton, Text } from '@chakra-ui/react';
-import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import { Container, Heading, Box, SimpleGrid, IconButton, Text, Badge, Flex, Tooltip } from '@chakra-ui/react';
+import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
 import { createFileRoute} from '@tanstack/react-router';
 
 
 export const Route = createFileRoute("/_layout/SocialMedia")({
   component: SocialMedia,
 });
+const isInstagramConnected = () => {
+  // Logic to check if Instagram is connected
+  return true; // Replace with actual logic to check connection
+};
 
 export default function SocialMedia() {
 
@@ -46,9 +50,25 @@ export default function SocialMedia() {
           boxShadow="md"
           textAlign="center"
           cursor="pointer"
+          position="relative" // Make the box a relative container
         >
           <a href="https://www.instagram.com/oauth/authorize?enable_fb_login=0&force_authentication=1&client_id=1687717362158671&redirect_uri=https://www.zflyn.com/IGReroute&response_type=code&scope=instagram_business_basic%2Cinstagram_business_manage_messages%2Cinstagram_business_manage_comments%2Cinstagram_business_content_publish%2Cinstagram_business_manage_insights" target="_blank" rel="noopener noreferrer">
-            <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
+            <Flex alignItems="center" justifyContent="center">
+              <IconButton icon={<FaInstagram size={24} />} aria-label="Instagram" />
+            </Flex>
+            {isInstagramConnected() && (
+              <Tooltip label="Connected" aria-label="Connected">
+                <FaCheckCircle
+                  color="green"
+                  size={20}
+                  style={{
+                    position: 'absolute',
+                    top: '8px',
+                    right: '8px',
+                  }}
+                />
+              </Tooltip>
+            )}
             <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
           </a>
         </Box>
