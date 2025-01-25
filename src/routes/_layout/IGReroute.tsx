@@ -25,11 +25,11 @@ export default function IGReroute() {
         queryFn: () => MetaService.handleInstagramAuth({ code: code }) // Pass the code to the backend
       }).then(() => {
         alert('Instagram is now connected!');
-        navigate({ to: '/_layout/SocialMedia' });
+        navigate({ to: '/SocialMedia' });
       }).catch((error) => {
         console.error('Failed to connect Instagram:', error);
         alert('Failed to connect Instagram.');
-        navigate({ to: '/_layout/SocialMedia' });
+        navigate({ to: '/SocialMedia' });
       });
     }
   }, [navigate, queryClient]);
