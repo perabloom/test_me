@@ -1,7 +1,7 @@
 import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Spinner, useToast } from '@chakra-ui/react';
 import { Image, VStack, HStack } from '@chakra-ui/react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
-import { createFileRoute} from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { MetaService } from '../../client/sdk.gen'; // Adjust the import path as necessary
 
@@ -63,17 +63,25 @@ export default function SocialMedia() {
 
 
   // Inside the SocialMedia component
-const { data: instagramProfile, isLoading: isLoadingProfile } = useQuery({
-  queryKey: ['fetchInstagramProfile'],
-  queryFn: () => MetaService.fetchInstagramProfile(),
-  enabled: !!isInstagramConnected
-});
+  const { data: instagramProfile, isLoading: isLoadingProfile } = useQuery({
+    queryKey: ['fetchInstagramProfile'],
+    queryFn: () => {
+      const profile = MetaService.fetchInstagramProfile();
+      console.log('Query returned:', profile);
+      return profile;
+    },
+    enabled: !!isInstagramConnected
+  });
 
-const { data: instagramPosts, isLoading: isLoadingPosts } = useQuery({
-  queryKey: ['fetchInstagramPosts'],
-  queryFn: () => MetaService.fetchInstagramPosts(),
-  enabled: !!isInstagramConnected
-});
+  const { data: instagramPosts, isLoading: isLoadingPosts } = useQuery({
+    queryKey: ['fetchInstagramPosts'],
+    queryFn: () => {
+      const posts = MetaService.fetchInstagramPosts();
+      console.log('Query returned:', posts);
+      return posts;
+    },
+    enabled: !!isInstagramConnected
+  });
   return (
     <Container maxW="7xl" py={12}>
       <Heading as="h1" mb={6} textAlign="center" color="blue.400">
@@ -109,19 +117,18 @@ const { data: instagramPosts, isLoading: isLoadingPosts } = useQuery({
             <Spinner size="sm" position="absolute" top="8px" right="8px" />
           ) : isInstagramConnected ? (
 
-              <FaCheckCircle
-                color="green"
-                size={20}
-                style={{
-                  position: 'absolute',
-                  top: '8px',
-                  right: '8px',
-                }}
-              />
+            <FaCheckCircle
+              color="green"
+              size={20}
+              style={{
+                position: 'absolute',
+                top: '8px',
+                right: '8px',
+              }}
+            />
           ) : null}
           <Text fontSize="md" fontWeight="bold">Connect Instagram</Text>
         </Box>
-
         <Box
           p={6}
           borderWidth="1px"
@@ -134,39 +141,71 @@ const { data: instagramPosts, isLoading: isLoadingPosts } = useQuery({
           <IconButton icon={<FaTwitter size={24} />} aria-label="Twitter" />
           <Text fontSize="md" fontWeight="bold">Connect Twitter</Text>
         </Box>
-      </SimpleGrid>
-      {isInstagramConnected && (
-  <VStack spacing={4} align="stretch" mt={8}>
-    {isLoadingProfile ? (
-      <Spinner />
-    ) : (
-      <HStack spacing={4} align="center">
-        <Image
-          borderRadius="full"
-          boxSize="50px"
-          src={(instagramProfile as any)?.profilePicture}
-          alt="Profile Picture"
-        />
-        <Text fontSize="lg" fontWeight="bold">{(instagramProfile as any)?.username}</Text>
-      </HStack>
-    )}
+        <Box
+          p={6}
+          borderWidth="1px"
+          borderRadius="lg"
+          boxShadow="md"
+          textAlign="center"
+          cursor="pointer"
+        >
+          <Text fontSize="md" fontWeight="bold">Facebook Posts</Text>
+        </Box>
+         <Box
+          p={6}
+          borderWidth="1px"
+          borderRadius="lg"
+          boxShadow="md"
+          textAlign="center"
+          cursor="pointer"
+        >
+          {isInstagramConnected && (
+        <VStack spacing={4} align="stretch" mt={8}>
+          {isLoadingProfile ? (
+            <Spinner />
+          ) : (
+            <HStack spacing={4} align="center">
+              <Image
+                borderRadius="full"
+                boxSize="50px"
+                src={(instagramProfile as any)?.profile_picture_url}
+                alt="Profile Picture"
+              />
+              <Text fontSize="lg" fontWeight="bold">{(instagramProfile as any)?.username}</Text>
+            </HStack>
+          )}
 
-    {isLoadingPosts ? (
-      <Spinner />
-    ) : (
-      <SimpleGrid columns={{ base: 1, md: 3 }} spacing={4}>
-        {(instagramPosts as any)?.posts?.map((post: any, index: number) => (
-          <Box key={index} borderWidth="1px" borderRadius="lg" overflow="hidden">
-            <Image src={post.imageUrl} alt={`Post ${index}`} />
-            <Box p={4}>
-              <Text>{post.caption}</Text>
-            </Box>
-          </Box>
-        ))}
+          {isLoadingPosts ? (
+            <Spinner />
+          ) : (
+            <SimpleGrid columns={{ base: 1, md: 1 }} spacing={4} overflowY="auto" maxHeight="500px">
+              {(instagramPosts as any)?.data?.map((post: any, index: number) => (
+                <Box key={index} borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md">
+                  <Image src={post.media_url} alt={`Post ${index}`} />
+                  <Box p={4}>
+                    <Text fontSize="md" fontWeight="bold">{post.caption}</Text>
+                    <Text fontSize="sm" color="gray.500">{new Date(post.timestamp).toLocaleString()}</Text>
+                  </Box>
+                </Box>
+              ))}
+            </SimpleGrid>
+          )}
+        </VStack>
+      )}
+        </Box>
+        <Box
+          p={6}
+          borderWidth="1px"
+          borderRadius="lg"
+          boxShadow="md"
+          textAlign="center"
+          cursor="pointer"
+        >
+          <Text fontSize="md" fontWeight="bold">EMPTY</Text>
+        </Box>
       </SimpleGrid>
-    )}
-  </VStack>
-)}
+
+
 
     </Container>
   );
