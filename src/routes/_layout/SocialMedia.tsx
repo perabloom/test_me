@@ -1,6 +1,6 @@
 import { Container, Heading, Box, SimpleGrid, IconButton, Text, Flex, Spinner, useToast } from '@chakra-ui/react';
 import { Image, VStack, HStack } from '@chakra-ui/react';
-import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaGoogle, FaCheckCircle } from "react-icons/fa";
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { MetaService } from '../../client/sdk.gen'; // Adjust the import path as necessary
@@ -57,7 +57,7 @@ export default function SocialMedia() {
     const loadFacebookSDK = () => {
       (window as any).fbAsyncInit = function() {
         (window as any).FB.init({
-          appId      : '3176025025873807', // Replace with your app ID
+          appId      : '1155592099418918', // Replace with your app ID
           cookie     : true,
           xfbml      : true,
           version    : 'v22.0' // Replace with the API version you want to use
@@ -121,9 +121,16 @@ export default function SocialMedia() {
   //   // Add your connection logic here
   // };
 
-  const handleConnectTwitter = () => {
-    // Logic to connect to Twitter
-    console.log("Connecting to Twitter...");
+  const handleConnectGoogle = () => {
+    // Logic to connect to Google
+    console.log("Connecting to Google...");
+    const clientId = '416714402153-2m3ps023q10fo50ikfc0ks8tj72ut8la.apps.googleusercontent.com'; // Replace with your Google client ID
+    const redirectUri = 'https://www.zflyn.com/GoogleReroute'; // Replace with your redirect URI
+    const scope = 'profile email'; // Define the scopes you need
+    const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
+
+    window.open(googleAuthUrl, '_blank', 'width=600,height=400');
+
     // Add your connection logic here
   };
 
@@ -202,10 +209,10 @@ export default function SocialMedia() {
           boxShadow="md"
           textAlign="center"
           cursor="pointer"
-          onClick={handleConnectTwitter} // Connect to Twitter
+          onClick={handleConnectGoogle} // Connect to Google
         >
-          <IconButton icon={<FaTwitter size={24} />} aria-label="Twitter" />
-          <Text fontSize="md" fontWeight="bold">Connect Twitter</Text>
+          <IconButton icon={<FaGoogle size={24} />} aria-label="Google" />
+          <Text fontSize="md" fontWeight="bold">Connect Google</Text>
         </Box>
         <Box
           p={6}

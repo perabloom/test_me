@@ -34,8 +34,8 @@ import type {
   ClientsDeleteClientResponse,
   ClientsReadClientData,
   ClientsReadClientResponse,
-  GoogleBusinessAuthorizeGoogleBusinessResponse,
-  GoogleBusinessOauth2CallbackResponse,
+  GoogleBusinessHandleGoogleAuthData,
+  GoogleBusinessHandleGoogleAuthResponse,
   ItemsReadItemsData,
   ItemsReadItemsResponse,
   ItemsCreateItemData,
@@ -103,6 +103,10 @@ import type {
   UtilsHealthCheckResponse,
   UtilsGetFacebookUserData,
   UtilsGetFacebookUserResponse,
+  UtilsGoogleGenaiData,
+  UtilsGoogleGenaiResponse,
+  UtilsGoogleGenaiImageData,
+  UtilsGoogleGenaiImageResponse,
 } from "./types.gen"
 
 export class AppointmentsService {
@@ -479,26 +483,25 @@ export class ClientsService {
 
 export class GoogleBusinessService {
   /**
-   * Authorize Google Business
+   * Handle Google Auth
+   * Handle Google authorization code and exchange it for an access token.
+   * @param data The data for the request.
+   * @param data.code
    * @returns unknown Successful Response
    * @throws ApiError
    */
-  public static authorizeGoogleBusiness(): CancelablePromise<GoogleBusinessAuthorizeGoogleBusinessResponse> {
+  public static handleGoogleAuth(
+    data: GoogleBusinessHandleGoogleAuthData,
+  ): CancelablePromise<GoogleBusinessHandleGoogleAuthResponse> {
     return __request(OpenAPI, {
-      method: "GET",
-      url: "/api/v1/google_business/authorize-google-business",
-    })
-  }
-
-  /**
-   * Oauth2Callback
-   * @returns unknown Successful Response
-   * @throws ApiError
-   */
-  public static oauth2Callback(): CancelablePromise<GoogleBusinessOauth2CallbackResponse> {
-    return __request(OpenAPI, {
-      method: "GET",
-      url: "/api/v1/google_business/oauth2callback",
+      method: "POST",
+      url: "/api/v1/google_business/auth/google_business",
+      query: {
+        code: data.code,
+      },
+      errors: {
+        422: "Validation Error",
+      },
     })
   }
 }
@@ -1300,6 +1303,56 @@ export class UtilsService {
       url: "/api/v1/utils/facebook-user/",
       query: {
         access_token: data.accessToken,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Google Genai
+   * Get Google GenAI response.
+   * @param data The data for the request.
+   * @param data.code
+   * @param data.prompt
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static googleGenai(
+    data: UtilsGoogleGenaiData,
+  ): CancelablePromise<UtilsGoogleGenaiResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/utils/google-genai/",
+      query: {
+        code: data.code,
+        prompt: data.prompt,
+      },
+      errors: {
+        422: "Validation Error",
+      },
+    })
+  }
+
+  /**
+   * Google Genai Image
+   * Get Google GenAI image response.
+   * @param data The data for the request.
+   * @param data.code
+   * @param data.prompt
+   * @returns unknown Successful Response
+   * @throws ApiError
+   */
+  public static googleGenaiImage(
+    data: UtilsGoogleGenaiImageData,
+  ): CancelablePromise<UtilsGoogleGenaiImageResponse> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/v1/utils/google-genai-image/",
+      query: {
+        code: data.code,
+        prompt: data.prompt,
       },
       errors: {
         422: "Validation Error",

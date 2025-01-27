@@ -321,9 +321,11 @@ export type ClientsReadClientData = {
 
 export type ClientsReadClientResponse = Client
 
-export type GoogleBusinessAuthorizeGoogleBusinessResponse = unknown
+export type GoogleBusinessHandleGoogleAuthData = {
+  code: string
+}
 
-export type GoogleBusinessOauth2CallbackResponse = unknown
+export type GoogleBusinessHandleGoogleAuthResponse = unknown
 
 export type ItemsReadItemsData = {
   limit?: number
@@ -522,3 +524,17 @@ export type UtilsGetFacebookUserData = {
 }
 
 export type UtilsGetFacebookUserResponse = unknown
+
+export type UtilsGoogleGenaiData = {
+  code: string
+  prompt: string
+}
+
+export type UtilsGoogleGenaiResponse = unknown
+
+export type UtilsGoogleGenaiImageData = {
+  code: string
+  prompt: string
+}
+
+export type UtilsGoogleGenaiImageResponse = unknown
