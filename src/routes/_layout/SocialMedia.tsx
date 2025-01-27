@@ -4,6 +4,8 @@ import { FaFacebookF, FaInstagram, FaTwitter, FaCheckCircle } from "react-icons/
 import { createFileRoute } from '@tanstack/react-router';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { MetaService } from '../../client/sdk.gen'; // Adjust the import path as necessary
+import {useEffect } from 'react';
+//import { useNavigate } from "@tanstack/react-router"
 
 
 export const Route = createFileRoute("/_layout/SocialMedia")({
@@ -49,11 +51,75 @@ export default function SocialMedia() {
     }
   };
 
-  const handleConnectFacebook = () => {
-    // Logic to connect to Facebook
-    console.log("Connecting to Facebook...");
-    // Add your connection logic here
+
+  useEffect(() => {
+    // Load the Facebook SDK script
+    const loadFacebookSDK = () => {
+      (window as any).fbAsyncInit = function() {
+        (window as any).FB.init({
+          appId      : '3176025025873807', // Replace with your app ID
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v22.0' // Replace with the API version you want to use
+        });
+
+        (window as any).FB.AppEvents.logPageView();
+
+        // Check login status
+        // (window as any).FB.getLoginStatus(function(response: any) {
+        //   statusChangeCallback(response);
+        // });
+      };
+
+      (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        (js as HTMLScriptElement).src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs?.parentNode?.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    };
+
+    loadFacebookSDK();
+  }, []);
+
+  // const navigate = useNavigate()
+  // const statusChangeCallback = (response: any) => {
+  //   if (response.status === 'connected') {
+  //     console.log('User is logged into Facebook and your app.');
+  //     // Redirect to the logged-in experience
+  //     navigate({ to: "/dashboard" });
+  //   } else if (response.status === 'not_authorized') {
+  //     console.log('User is logged into Facebook but not your app.');
+  //     // Prompt them with the Login dialog
+  //     handleFacebookLogin();
+  //   } else {
+  //     console.log('User is not logged into Facebook.');
+  //     // Show the Login Button or prompt them with the Login dialog
+  //     handleFacebookLogin();
+  //   }
+  // };
+  const handleFacebookLogin = () => {
+    (window as any).FB.login((response: any) => {
+      if (response.authResponse) {
+        console.log('Welcome! Fetching your information.... ');
+        (window as any).FB.api('/me', function(response: any) {
+          console.log('Successful login response: ' + response);
+          console.log('Good to see you, ' + response.name + '.');
+          // Handle the response and navigate or update state as needed
+        });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    });
   };
+
+
+  // const handleConnectFacebook = () => {
+  //   // Logic to connect to Facebook
+  //   console.log("Connecting to Facebook...");
+  //   // Add your connection logic here
+  // };
 
   const handleConnectTwitter = () => {
     // Logic to connect to Twitter
@@ -95,7 +161,7 @@ export default function SocialMedia() {
           boxShadow="md"
           textAlign="center"
           cursor="pointer"
-          onClick={handleConnectFacebook} // Connect to Facebook
+          onClick={handleFacebookLogin} // Connect to Facebook
         >
           <IconButton icon={<FaFacebookF size={24} />} aria-label="Facebook" />
           <Text fontSize="md" fontWeight="bold">Connect Facebook</Text>
