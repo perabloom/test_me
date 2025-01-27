@@ -126,7 +126,7 @@ export default function SocialMedia() {
     console.log("Connecting to Google...");
     const clientId = '416714402153-2m3ps023q10fo50ikfc0ks8tj72ut8la.apps.googleusercontent.com'; // Replace with your Google client ID
     const redirectUri = 'https://www.zflyn.com/GoogleReroute'; // Replace with your redirect URI
-    const scope = 'profile email'; // Define the scopes you need
+    const scope = 'profile email https://www.googleapis.com/auth/business.manage'; // Define the scopes you need
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=${scope}`;
 
     window.open(googleAuthUrl, '_blank', 'width=600,height=400');
