@@ -15,7 +15,7 @@ const generateWebpageCode = async (prompt: string) => {
             { inputs: prompt },
             {
                 headers: {
-                    Authorization: `Bearer TEST_ME`,
+                    Authorization: `Bearer ${process.env.HUGGINGFACE_KEY}`,
                 },
             }
         );
