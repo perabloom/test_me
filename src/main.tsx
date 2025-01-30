@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { RouterProvider, createRouter } from "@tanstack/react-router"
 import ReactDOM from "react-dom/client"
 import { routeTree } from "./routeTree.gen"
+import PreProcessingWrapper from "./preprocessingwrapper"
 
 import { StrictMode } from "react"
 import { OpenAPI } from "./client"
@@ -26,7 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <PreProcessingWrapper router={router} />
       </QueryClientProvider>
     </ChakraProvider>
   </StrictMode>,
