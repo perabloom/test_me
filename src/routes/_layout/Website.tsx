@@ -15,7 +15,7 @@ const generateWebpageCode = async (prompt: string) => {
             { inputs: prompt },
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.HUGGINGFACE_KEY}`,
+                    Authorization: `Bearer ${import.meta.env.VITE_HUGGINGFACE_KEY}`,
                 },
             }
         );
@@ -26,6 +26,7 @@ const generateWebpageCode = async (prompt: string) => {
         return null;
     }
 };
+
 
 // const htmlM = `<html lang="en">
 // <head>
